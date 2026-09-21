@@ -4,17 +4,53 @@ import kz.iitu.springlab.notify.Notifier;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 @Service
 public class NotificationService {
 
-    private final Notifier notifier;
+    private final Notifier primary;
+    private final Notifier console;
+    private final Notifier reversed;
+
+    private final List<Notifier> all;
+    private final Map<String, Notifier> byName;
 
     public NotificationService(
-            @Qualifier("noopNotifier") Notifier notifier) {
-        this.notifier = notifier;
+            Notifier primary,
+            @Qualifier("console") Notifier console,
+            @Qualifier("reversed") Notifier reversed,
+            List<Notifier> all,
+            Map<String, Notifier> byName) {
+
+        this.primary = primary;
+        this.console = console;
+        this.reversed = reversed;
+        this.all = all;
+        this.byName = byName;
     }
 
-    public void notifyUser(String message) {
-        notifier.send(message);
+    public String viaPrimary(String message) {
+        return primary.send(message);
+    }
+
+    public String viaConsole(String message) {
+        return console.send(message);
+    }
+
+    public String viaReversed(String message) {
+        return reversed.send(message);
+    }
+
+    public List<String> viaAll(String message) {
+        return all.stream()
+                .map(n -> n.send(message))
+                .toList();
+    }
+
+    public Set<String> names() {
+        return byName.keySet();
     }
 }

@@ -15,7 +15,7 @@ public class ScopeController {
         this.ticketOffice = ticketOffice;
     }
 
-    @GetMapping("/api/scope")
+    @GetMapping("/api/lab2/scopes")
     public Map<String, Object> scope() {
         return ticketOffice.demo();
     }
