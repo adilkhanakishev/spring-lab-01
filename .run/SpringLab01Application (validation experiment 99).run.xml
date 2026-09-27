@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="SpringLab01Application (validation experiment 99)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="spring-lab-01" />
+    <option name="PROGRAM_PARAMETERS" value="--app.mail.retry-count=99" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="kz.iitu.springlab.SpringLab01Application" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

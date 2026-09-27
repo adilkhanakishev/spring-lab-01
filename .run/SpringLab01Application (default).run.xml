@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="SpringLab01Application (default)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="spring-lab-01" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="kz.iitu.springlab.SpringLab01Application" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
