@@ -17,6 +17,7 @@ app:
   pagination:
     default-size: 20
     max-size: 100
+  slow-threshold: 200
 
 logging:
   level:
