@@ -48,6 +48,9 @@ src/main/resources/
 lab05-requests.http              # IntelliJ IDEA HTTP Client scratch file for instant execution
 ```
 
+![Figure 1: Side-by-side view of BookRestController and BookPageController in IntelliJ IDEA](screenshot_two_controllers.png)
+*Figure 1: Side-by-side view of BookRestController (@RestController) and BookPageController (@Controller) in IntelliJ IDEA*
+
 ---
 
 ## 3. Core Listings
@@ -288,6 +291,15 @@ public class BookPageController {
 
 ## 5. Web UI, Post/Redirect/Get, and Static Resources
 
+![Figure 2: Catalogue page (/books) rendered in browser](screenshot_books_list.png)
+*Figure 2: Catalogue page (/books) rendered in browser with CSS stylesheet*
+
+![Figure 3: Catalogue page filtered by author (/books?author=Bloch)](screenshot_books_filter.png)
+*Figure 3: Catalogue page filtered by author (/books?author=Bloch)*
+
+![Figure 4: Flash message displayed after POST submission using Post/Redirect/Get](screenshot_books_flash.png)
+*Figure 4: Flash message displayed after POST submission using Post/Redirect/Get (session cookie attached)*
+
 ### Post/Redirect/Get Demonstration Analysis:
 1. **Form Submission:** Browser executes `POST /books` with form body `title=Java Precisely&author=Sestoft&year=2016`.
 2. **Controller Processing:** `BookPageController.create(...)` invokes `service.create(...)`, attaches flash attribute `"message"`, and returns `"redirect:/books"`.
@@ -314,15 +326,27 @@ public class BookPageController {
 - **Endpoint:** `GET /api/books/by-year/{year}`
 - **Requirement:** Path variable constrained by a regular expression to four digits; a non-matching path must give 404.
 - **Mapping:** `@GetMapping("/by-year/{year:\\d{4}}")`
-- **Verification:**
+- **Verification via IntelliJ IDEA HTTP Client:**
   - `GET /api/books/by-year/2022` &rarr; **200 OK**, `[{"id":3,"title":"Spring in Action","author":"Craig Walls","year":2022}]`.
   - `GET /api/books/by-year/abc` &rarr; **404 Not Found** (Regex `\d{4}` does not match, so `HandlerMapping` skips this handler and returns 404).
+
+![Figure 5: Variant 2 valid request (/by-year/2022) in IntelliJ IDEA HTTP Client](screenshot_variant2_match.png)
+*Figure 5: Variant 2 valid request (/by-year/2022) returning 200 OK in IntelliJ IDEA HTTP Client*
+
+![Figure 6: Variant 2 invalid request (/by-year/abc) in IntelliJ IDEA HTTP Client](screenshot_variant2_nonmatch.png)
+*Figure 6: Variant 2 invalid request (/by-year/abc) returning 404 Not Found due to regex mismatch in IntelliJ IDEA HTTP Client*
 
 ---
 
 ## 8. Static Resources Resolution
 - `/css/app.css` and `/` (`index.html`) answer with 200 OK without controller mappings because Spring Boot registers `ResourceHttpRequestHandler` mapped to `/**`, resolving files from `classpath:/static/`.
 - Root `/` is mapped by `WelcomePageHandlerMapping` to `classpath:/static/index.html`.
+
+![Figure 7: Static start page (/index.html) rendered in browser](screenshot_static_index.png)
+*Figure 7: Static start page (/index.html) rendered from classpath:/static/index.html*
+
+![Figure 8: Static stylesheet (/css/app.css) served directly](screenshot_static_css.png)
+*Figure 8: Static stylesheet (/css/app.css) served directly by ResourceHttpRequestHandler*
 
 ---
 
