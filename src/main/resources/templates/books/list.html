@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Catalogue</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+    <h1 th:text="${title}">Catalogue</h1>
+
+    <p th:if="${message}" class="flash" th:text="${message}"></p>
+
+    <form method="get" action="/books" class="filter-form">
+        <label for="authorInput">Filter by Author:</label>
+        <input type="text" id="authorInput" name="author" th:value="${author}" placeholder="e.g. Bloch">
+        <button type="submit">Filter</button>
+        <a th:href="@{/books}" class="btn-link">Reset</a>
+    </form>
+
+    <table>
+        <tr><th>#</th><th>Title</th><th>Author</th><th>Year</th></tr>
+        <tr th:each="book : ${books}">
+            <td th:text="${book.id}">1</td>
+            <td th:text="${book.title}">Title</td>
+            <td th:text="${book.author}">Author</td>
+            <td th:text="${book.year}">2020</td>
+        </tr>
+    </table>
+
+    <div class="form-container">
+        <h2>Add Book (Post/Redirect/Get Demo)</h2>
+        <form method="post" action="/books">
+            <div>
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div>
+                <label for="author">Author:</label>
+                <input type="text" id="author" name="author" required>
+            </div>
+            <div>
+                <label for="year">Year:</label>
+                <input type="number" id="year" name="year" required>
+            </div>
+            <button type="submit">Add Book</button>
+        </form>
+    </div>
+</body>
+</html>
