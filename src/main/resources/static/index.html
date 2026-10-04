@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring MVC Book Catalog</title>
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+    <h1>Welcome to Book Catalog Application</h1>
+    <p>This is the static home page served automatically by Spring Boot from <code>/static/index.html</code>.</p>
+    
+    <div style="margin-top: 25px;">
+        <a href="/books" class="btn-link" style="background-color: #2563eb; color: #ffffff; font-weight: 500; display: inline-block;">Go to Book Catalogue (/books)</a>
+    </div>
+
+    <div style="margin-top: 30px;">
+        <h3>REST API Endpoints:</h3>
+        <ul>
+            <li><a href="/api/books" target="_blank">GET /api/books</a> (List books)</li>
+            <li><a href="/api/books/1" target="_blank">GET /api/books/1</a> (Find book #1)</li>
+            <li><a href="/api/books/by-year/2022" target="_blank">GET /api/books/by-year/2022</a> (Variant 2: Regex 4 digits)</li>
+        </ul>
+    </div>
+</body>
+</html>
