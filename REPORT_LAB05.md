@@ -10,6 +10,7 @@
 **Lecturer:** Yemberdiyeva Aknur, Senior Lector  
 **Branch:** `lab05`  
 **Repository:** https://github.com/adilkhanakishev/spring-lab-01  
+**Pull Request:** https://github.com/adilkhanakishev/spring-lab-01/pull/4  
 
 ---
 
@@ -350,7 +351,20 @@ public class BookPageController {
 
 ---
 
-## 9. Conclusions
+## 9. Source Code Repository and Pull Request Verification
+All source code, configuration files, templates, stylesheets, tests, and documentation are committed and pushed to the official GitHub repository for the course:
+- **Repository URL:** https://github.com/adilkhanakishev/spring-lab-01
+- **Work Branch:** `lab05`
+- **Official Pull Request:** https://github.com/adilkhanakishev/spring-lab-01/pull/4
+
+The pull request compares branch `lab05` against base branch `main` and contains all 21 changed files.
+
+![Figure 9: Official GitHub Pull Request #4 (lab05 -> main)](screenshot_github_pr.png)
+*Figure 9: Official GitHub Pull Request #4 (lab05 -> main) with all 21 modified files and commit history*
+
+---
+
+## 10. Conclusions
 1. The Front Controller pattern via `DispatcherServlet` centralizes request parsing, routing, and error handling, isolating controllers from low-level Servlet API concerns.
 2. The architectural split between `@RestController` and `@Controller` provides a clear separation of concerns between API serialization and HTML view rendering.
 3. Using `ResponseEntity` allows semantic compliance with REST guidelines (Location headers, 201 Created, 204 No Content).
@@ -358,7 +372,7 @@ public class BookPageController {
 
 ---
 
-## 10. Demonstration Checklist & Defence Questions (Q&A)
+## 11. Demonstration Checklist & Defence Questions (Q&A)
 
 ### Q1: Trace the path of a request from the browser to your method and back.
 Browser &rarr; Tomcat &rarr; `DispatcherServlet` &rarr; `HandlerMapping` (finds controller method) &rarr; `HandlerAdapter` (resolves parameters with `ConversionService`/`HttpMessageConverter`) &rarr; Controller method invocation &rarr; Return value:
