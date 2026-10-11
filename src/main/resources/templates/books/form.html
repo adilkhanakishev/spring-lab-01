@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{book.new}">New book</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+    <div class="lang-switch">
+        <span>Language / Язык / Тіл:</span>
+        <a th:href="@{/books/new(lang='en')}">English</a> |
+        <a th:href="@{/books/new(lang='ru')}">Русский</a> |
+        <a th:href="@{/books/new(lang='kk')}">Қазақша</a>
+    </div>
+
+    <h1 th:text="#{book.new}">New book</h1>
+
+    <form th:action="@{/books}" th:object="${form}" method="post">
+
+        <!-- Summary of all errors (Task 2.1) -->
+        <div class="alert" th:if="${#fields.hasAnyErrors()}">
+            <h4>Validation Errors:</h4>
+            <ul>
+                <li th:each="e : ${#fields.allErrors()}" th:text="${e}"></li>
+            </ul>
+        </div>
+
+        <!-- Variant 2: Global errors summary (from class-level @ValidReprintYear) -->
+        <div class="alert alert-global" th:if="${#fields.hasGlobalErrors()}">
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+        </div>
+
+        <div class="form-group">
+            <label th:text="#{book.title}">Title</label>
+            <input type="text" th:field="*{title}" th:errorclass="is-invalid">
+            <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+        </div>
+
+        <div class="form-group">
+            <label th:text="#{book.author}">Author</label>
+            <input type="text" th:field="*{author}" th:errorclass="is-invalid">
+            <span class="error" th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></span>
+        </div>
+
+        <div class="form-group">
+            <label th:text="#{book.year}">Year</label>
+            <input type="number" th:field="*{year}" th:errorclass="is-invalid">
+            <span class="error" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
+        </div>
+
+        <!-- Variant 2: Reprint Year (class-level constraint @ValidReprintYear) -->
+        <div class="form-group">
+            <label th:text="#{book.reprintYear}">Reprint Year</label>
+            <input type="number" th:field="*{reprintYear}" th:errorclass="is-invalid">
+            <span class="error" th:if="${#fields.hasErrors('reprintYear')}" th:errors="*{reprintYear}"></span>
+        </div>
+
+        <div class="form-group">
+            <label th:text="#{book.genre}">Genre</label>
+            <select th:field="*{genre}" th:errorclass="is-invalid">
+                <option value="">—</option>
+                <option th:each="g : ${genres}" th:value="${g}" th:text="${g}"></option>
+            </select>
+            <span class="error" th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></span>
+        </div>
+
+        <div class="form-group checkbox-group">
+            <label>
+                <input type="checkbox" th:field="*{available}">
+                <span th:text="#{book.available}">Available</span>
+            </label>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" th:text="#{form.submit}">Save</button>
+            <a th:href="@{/books}" class="btn-link" th:text="#{error.back}">Back to catalogue</a>
+        </div>
+    </form>
+</body>
+</html>

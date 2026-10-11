@@ -193,7 +193,8 @@ public class BookControllerTest {
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("title", "Java Precisely")
                         .param("author", "Sestoft")
-                        .param("year", "2016"))
+                        .param("year", "2016")
+                        .param("genre", "SCIENCE"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/books"))
                 .andExpect(flash().attribute("message", "Book «Java Precisely» has been added"));

@@ -1,6 +1,7 @@
 package kz.iitu.springlab.web;
 
 import kz.iitu.springlab.catalog.Book;
+import kz.iitu.springlab.catalog.BookNotFoundException;
 import kz.iitu.springlab.catalog.BookService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,10 +34,9 @@ public class BookRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Book> find(@PathVariable long id) {
+    public Book find(@PathVariable long id) {
         return service.findById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseThrow(() -> new BookNotFoundException(id));
     }
 
     @PostMapping
@@ -51,7 +51,7 @@ public class BookRestController {
     public ResponseEntity<Book> update(@PathVariable long id, @RequestBody Book book) {
         return service.update(id, book)
                 .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseThrow(() -> new BookNotFoundException(id));
     }
 
     @DeleteMapping("/{id}")
@@ -62,7 +62,7 @@ public class BookRestController {
     }
 
     /**
-     * Individual Variant 2:
+     * Individual Variant 2 from Lab 05:
      * GET /api/books/by-year/{year}
      * A path variable constrained by a regular expression to four digits;
      * a non-matching path must give 404.
