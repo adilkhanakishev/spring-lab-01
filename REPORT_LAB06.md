@@ -578,23 +578,51 @@ The table below documents the verification of both error routes:
 1. **Case 1: Empty title**
    - *Input:* `title=""`, `author="Joshua Bloch"`, `year=2018`, `genre=SCIENCE`.
    - *Behavior:* Redisplays `books/form.html`. Red border applied via `th:errorclass="is-invalid"`. Field message `The title must not be empty` appears adjacent to the input. Summary alert displays the error. Other fields retain entered values.
+
+![Figure 1: Empty title field rejection with inline error and Russian locale](screenshot_empty_title.png)
+*Figure 1: Empty title field rejection with inline error and Russian locale (Task 2.5 Case 1 & Task 3)*
+
 2. **Case 2: Year out of range (1200)**
    - *Input:* `title="Codex"`, `author="Monk"`, `year=1200`, `genre=HISTORY`.
    - *Behavior:* Rejected by `@Min(1450)`. Redisplays the page with error `The year must be between 1450 and 2100`. The input retains `1200`.
+
+![Figure 2: Year out of range (1200 < 1450) rejected with @Min constraint](screenshot_year_range.png)
+*Figure 2: Year out of range (1200 < 1450) rejected with @Min constraint and red border (Task 2.5 Case 2)*
+
 3. **Case 3: No genre selected**
    - *Input:* `title="Clean Architecture"`, `author="Robert Martin"`, `year=2017`, `genre=""`.
    - *Behavior:* Rejected by `@NotNull`. Dropdown receives `is-invalid` class with error `Choose a genre`.
+
+![Figure 3: Unselected genre rejected with @NotNull constraint](screenshot_no_genre.png)
+*Figure 3: Unselected genre rejected with @NotNull constraint (Task 2.5 Case 3)*
+
 4. **Case 4: Custom constraint violation (@NoDigits)**
    - *Input:* `title="Effective Java"`, `author="Bloch 2018"`, `year=2018`, `genre=SCIENCE`.
    - *Behavior:* `NoDigitsValidator` detects numeric characters `'2','0','1','8'`. Field error `The author must not contain digits` is reported.
+
 5. **Case 5: Individual Variant 2 violation (@ValidReprintYear)**
    - *Input:* `title="Design Patterns"`, `author="Gamma"`, `year=1994`, `reprintYear=1990`, `genre=SCIENCE`.
    - *Behavior:* Class-level validator verifies `1990 < 1994`. A **Global Error** is generated and displayed inside the orange alert box rendered by `#fields.globalErrors()`: `A reprint year must not precede the first edition year`.
+
+![Figure 4: Individual Variant 2 — Class-level @ValidReprintYear global error](screenshot_variant2_reprint_year.png)
+*Figure 4: Individual Variant 2 — Class-level constraint violation (Reprint Year 1990 < First Edition 1994) showing global error in orange alert card*
+
 6. **Case 6: Valid submission & PRG pattern**
    - *Input:* `title="Clean Code"`, `author="Robert Martin"`, `year=2008`, `reprintYear=2012`, `genre=SCIENCE`, `available=true`.
    - *Behavior:* Server saves entity and returns `HTTP 302 Found` with `Location: /books`. Browser issues `GET /books`. Green flash banner appears: `Book «Clean Code» has been added`. Pressing **F5 (Refresh)** re-issues `GET /books`; the flash message is gone and no duplicate record is created.
+
+![Figure 5: Post/Redirect/Get successful submission with flash banner](screenshot_prg_success.png)
+*Figure 5: Post/Redirect/Get successful submission redirecting to /books with green flash banner (Task 2.5 Case 4)*
+
 7. **Case 7: Locale Switching (?lang=ru and ?lang=kk)**
    - *Behavior:* Changing URL to `?lang=ru` changes all form captions to Russian (`Название`, `Автор`, `Год`, `Сохранить`). Submitting an empty form yields Russian validation errors (`Название не может быть пустым`). Changing to `?lang=kk` renders Kazakh captions and validation errors.
+
+8. **Case 8: Official GitHub Pull Request #5**
+   - *Branch:* `lab06` -> `main`
+   - *Pull Request Link:* https://github.com/adilkhanakishev/spring-lab-01/pull/5
+
+![Figure 6: Official GitHub Pull Request #5 (lab06 -> main)](screenshot_github_pr.png)
+*Figure 6: Official GitHub Pull Request #5 (lab06 -> main) with all commits and branch comparison*
 
 ### 4.3. Automated Test Suite Results
 All 33 test methods across the entire project pass with 0 failures and 0 errors:

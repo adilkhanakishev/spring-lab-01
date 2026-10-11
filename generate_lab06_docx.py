@@ -79,7 +79,7 @@ meta_data = [
      ("Variant:", " 2 (Class-level constraint: «Reprint year vs First edition year»)")],
     [("Branch:", " lab06"), 
      ("Repository:", " https://github.com/adilkhanakishev/spring-lab-01")],
-    [("Status:", " 100% Complete — Build Success, All 33 Automated Tests Passed"), 
+    [("Pull Request:", " https://github.com/adilkhanakishev/spring-lab-01/pull/5"), 
      ("Date:", " October 2026")]
 ]
 
@@ -141,9 +141,26 @@ def add_code_block(code_text):
     run.font.color.rgb = RGBColor(0x0F, 0x17, 0x2A)
     doc.add_paragraph().paragraph_format.space_after = Pt(4)
 
+def add_figure(img_path, caption):
+    if os.path.exists(img_path):
+        p_img = doc.add_paragraph()
+        p_img.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p_img.paragraph_format.space_before = Pt(6)
+        p_img.paragraph_format.space_after = Pt(2)
+        p_img.add_run().add_picture(img_path, width=Inches(6.0))
+        
+        p_cap = doc.add_paragraph()
+        p_cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p_cap.paragraph_format.space_before = Pt(0)
+        p_cap.paragraph_format.space_after = Pt(8)
+        rc = p_cap.add_run(caption)
+        rc.font.size = Pt(9)
+        rc.font.italic = True
+        rc.font.color.rgb = RGBColor(0x47, 0x55, 0x69)
+
 # --- 1. Aim of the Work ---
 add_heading_1("1. Aim of the Work")
-p_aim = doc.add_paragraph(
+doc.add_paragraph(
     "To build a complete, resilient, and enterprise-grade web form layer using Spring MVC, Thymeleaf, and Jakarta Bean Validation:\n"
     "1. Form Object Decoupling: Create a dedicated form-backing object (BookForm) separated from persistent records, annotated with declarative validation constraints (@NotBlank, @Size, @Min, @Max, @NotNull).\n"
     "2. Controller Form Lifecycle: Handle form submission with @Valid and BindingResult, redisplaying invalid forms with inline field errors while preserving user inputs, and completing valid submissions via the Post/Redirect/Get (PRG) pattern.\n"
@@ -271,7 +288,6 @@ public @interface NoDigits {
     Class<? extends Payload>[] payload() default {};
 }
 
-// Validator implementation:
 public class NoDigitsValidator implements ConstraintValidator<NoDigits, String> {
     @Override
     public boolean isValid(String value, ConstraintValidatorContext ctx) {
@@ -297,7 +313,6 @@ public @interface ValidReprintYear {
     Class<? extends Payload>[] payload() default {};
 }
 
-// Validator implementation:
 public class ValidReprintYearValidator implements ConstraintValidator<ValidReprintYear, BookForm> {
     @Override
     public boolean isValid(BookForm form, ConstraintValidatorContext context) {
@@ -347,7 +362,7 @@ public class BookPageController {
 
     @PostMapping
     public String create(@Valid @ModelAttribute("form") BookForm form,
-                         BindingResult binding,          // immediately after the form object!
+                         BindingResult binding,          // immediately after form object!
                          Model model,
                          RedirectAttributes redirect) {
 
@@ -397,88 +412,6 @@ public class ApiExceptionHandler {
     }
 }""")
 
-add_heading_2("Listing 6: Thymeleaf Form Template (books/form.html)")
-add_code_block("""<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title th:text="#{book.new}">New book</title>
-    <link rel="stylesheet" th:href="@{/css/app.css}">
-</head>
-<body>
-    <div class="lang-switch">
-        <span>Language / Язык / Тіл:</span>
-        <a th:href="@{/books/new(lang='en')}">English</a> |
-        <a th:href="@{/books/new(lang='ru')}">Русский</a> |
-        <a th:href="@{/books/new(lang='kk')}">Қазақша</a>
-    </div>
-
-    <h1 th:text="#{book.new}">New book</h1>
-
-    <form th:action="@{/books}" th:object="${form}" method="post">
-
-        <!-- Summary of all errors -->
-        <div class="alert" th:if="${#fields.hasAnyErrors()}">
-            <h4>Validation Errors:</h4>
-            <ul>
-                <li th:each="e : ${#fields.allErrors()}" th:text="${e}"></li>
-            </ul>
-        </div>
-
-        <!-- Variant 2: Global errors summary -->
-        <div class="alert alert-global" th:if="${#fields.hasGlobalErrors()}">
-            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
-        </div>
-
-        <div class="form-group">
-            <label th:text="#{book.title}">Title</label>
-            <input type="text" th:field="*{title}" th:errorclass="is-invalid">
-            <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
-        </div>
-
-        <div class="form-group">
-            <label th:text="#{book.author}">Author</label>
-            <input type="text" th:field="*{author}" th:errorclass="is-invalid">
-            <span class="error" th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></span>
-        </div>
-
-        <div class="form-group">
-            <label th:text="#{book.year}">Year</label>
-            <input type="number" th:field="*{year}" th:errorclass="is-invalid">
-            <span class="error" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
-        </div>
-
-        <!-- Variant 2: Reprint Year -->
-        <div class="form-group">
-            <label th:text="#{book.reprintYear}">Reprint Year</label>
-            <input type="number" th:field="*{reprintYear}" th:errorclass="is-invalid">
-            <span class="error" th:if="${#fields.hasErrors('reprintYear')}" th:errors="*{reprintYear}"></span>
-        </div>
-
-        <div class="form-group">
-            <label th:text="#{book.genre}">Genre</label>
-            <select th:field="*{genre}" th:errorclass="is-invalid">
-                <option value="">—</option>
-                <option th:each="g : ${genres}" th:value="${g}" th:text="${g}"></option>
-            </select>
-            <span class="error" th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></span>
-        </div>
-
-        <div class="form-group checkbox-group">
-            <label>
-                <input type="checkbox" th:field="*{available}">
-                <span th:text="#{book.available}">Available</span>
-            </label>
-        </div>
-
-        <div class="form-actions">
-            <button type="submit" th:text="#{form.submit}">Save</button>
-            <a th:href="@{/books}" class="btn-link" th:text="#{error.back}">Back to catalogue</a>
-        </div>
-    </form>
-</body>
-</html>""")
-
 # --- 4. Experimental Results and Verification ---
 add_heading_1("4. Experimental Results and Verification")
 
@@ -523,16 +456,27 @@ for row_idx, r_data in enumerate(data_rows):
 
 doc.add_paragraph().paragraph_format.space_after = Pt(6)
 
-add_heading_2("4.2. Form Validation Cases Verified")
-doc.add_paragraph(
-    "1. Case 1 (Empty Title): Submitting an empty title field causes @NotBlank violation. The page is redisplayed with HTTP 200, input field receives CSS class 'is-invalid', message 'The title must not be empty' is displayed, and user input is preserved.\n"
-    "2. Case 2 (Year Out of Range): Submitting year 1200 causes @Min(1450) violation. Error message 'The year must be between 1450 and 2100' is displayed adjacent to the year input.\n"
-    "3. Case 3 (Missing Genre): Leaving genre unselected violates @NotNull. Dropdown receives 'is-invalid' class and message 'Choose a genre'.\n"
-    "4. Case 4 (Custom @NoDigits Violation): Submitting author 'Bloch 2018' violates NoDigits constraint. Message 'The author must not contain digits' is rendered.\n"
-    "5. Case 5 (Variant 2 Class-Level Violation): Submitting first edition year 1994 and reprint year 1990 violates @ValidReprintYear. A Global Error is generated and rendered in the orange alert card via #fields.globalErrors(): 'A reprint year must not precede the first edition year'.\n"
-    "6. Case 6 (Valid Submission PRG): Submitting valid book 'Clean Code' issues POST /books, persists book, attaches flash message, and returns 302 Redirect to /books. Browser follows redirect; flash message displays once. Pressing F5 re-executes safe GET without duplicate record creation.\n"
-    "7. Case 7 (i18n Locale Switching): Switching to ?lang=ru dynamically changes all captions and validation errors to Russian. Switching to ?lang=kk renders complete Kazakh captions and validation errors."
-)
+add_heading_2("4.2. Visual Verification via Experimental Screenshots")
+
+base_dir = r"C:\Users\Asus\Desktop\spring-lab-01"
+
+add_figure(os.path.join(base_dir, "screenshot_empty_title.png"), 
+           "Figure 1: Empty title field rejection with inline error and Russian locale (Task 2.5 Case 1 & Task 3)")
+
+add_figure(os.path.join(base_dir, "screenshot_year_range.png"), 
+           "Figure 2: Year out of range (1200 < 1450) rejected with @Min constraint and red border (Task 2.5 Case 2)")
+
+add_figure(os.path.join(base_dir, "screenshot_no_genre.png"), 
+           "Figure 3: Unselected genre rejected with @NotNull constraint (Task 2.5 Case 3)")
+
+add_figure(os.path.join(base_dir, "screenshot_variant2_reprint_year.png"), 
+           "Figure 4: Individual Variant 2 — Class-level constraint violation (Reprint Year 1990 < First Edition 1994) showing global error in orange alert card")
+
+add_figure(os.path.join(base_dir, "screenshot_prg_success.png"), 
+           "Figure 5: Post/Redirect/Get successful submission redirecting to /books with green flash banner (Task 2.5 Case 4)")
+
+add_figure(os.path.join(base_dir, "screenshot_github_pr.png"), 
+           "Figure 6: Official GitHub Pull Request #5 (lab06 -> main) with all commits and branch comparison")
 
 add_heading_2("4.3. Automated Test Suite Execution")
 doc.add_paragraph(
@@ -646,4 +590,4 @@ for q, a in questions_and_answers:
 
 output_path = r"C:\Users\Asus\Desktop\spring-lab-01\Lab06_Akishev_IS-2406.docx"
 doc.save(output_path)
-print(f"Successfully generated: {output_path}")
+print(f"Successfully generated with embedded figures: {output_path}")
