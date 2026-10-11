@@ -475,8 +475,11 @@ add_figure(os.path.join(base_dir, "screenshot_variant2_reprint_year.png"),
 add_figure(os.path.join(base_dir, "screenshot_prg_success.png"), 
            "Figure 5: Post/Redirect/Get successful submission redirecting to /books with green flash banner (Task 2.5 Case 4)")
 
+add_figure(os.path.join(base_dir, "screenshot_page_404.png"), 
+           "Figure 6: Centralised PageExceptionHandler handling BookNotFoundException for GET /books/999 rendering custom 404 HTML template (Task 4.3 & 4.4)")
+
 add_figure(os.path.join(base_dir, "screenshot_github_pr.png"), 
-           "Figure 6: Official GitHub Pull Request #5 (lab06 -> main) with all commits and branch comparison")
+           "Figure 7: Official GitHub Pull Request #5 (lab06 -> main) with all commits and branch comparison")
 
 add_heading_2("4.3. Automated Test Suite Execution")
 doc.add_paragraph(
@@ -589,5 +592,10 @@ for q, a in questions_and_answers:
     ra.font.color.rgb = RGBColor(0x33, 0x41, 0x55)
 
 output_path = r"C:\Users\Asus\Desktop\spring-lab-01\Lab06_Akishev_IS-2406.docx"
-doc.save(output_path)
-print(f"Successfully generated with embedded figures: {output_path}")
+try:
+    doc.save(output_path)
+    print(f"Successfully generated with embedded figures: {output_path}")
+except PermissionError:
+    alt_path = r"C:\Users\Asus\Desktop\spring-lab-01\Lab06_Akishev_IS-2406_final.docx"
+    doc.save(alt_path)
+    print(f"Primary file locked by Microsoft Word. Saved to: {alt_path}")

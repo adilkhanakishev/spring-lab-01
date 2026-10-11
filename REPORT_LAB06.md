@@ -617,12 +617,18 @@ The table below documents the verification of both error routes:
 7. **Case 7: Locale Switching (?lang=ru and ?lang=kk)**
    - *Behavior:* Changing URL to `?lang=ru` changes all form captions to Russian (`Название`, `Автор`, `Год`, `Сохранить`). Submitting an empty form yields Russian validation errors (`Название не может быть пустым`). Changing to `?lang=kk` renders Kazakh captions and validation errors.
 
-8. **Case 8: Official GitHub Pull Request #5**
+8. **Case 8: Centralised PageExceptionHandler for Missing Resource (GET /books/999)**
+   - *Behavior:* Requesting a non-existent book identifier triggers `BookNotFoundException`. `PageExceptionHandler` intercepts the exception and serves `error/not-found.html` with status 200 OK.
+
+![Figure 6: Centralised PageExceptionHandler 404 HTML template](screenshot_page_404.png)
+*Figure 6: Centralised PageExceptionHandler handling BookNotFoundException for GET /books/999 rendering custom 404 HTML template (Task 4.3 & 4.4)*
+
+9. **Case 9: Official GitHub Pull Request #5**
    - *Branch:* `lab06` -> `main`
    - *Pull Request Link:* https://github.com/adilkhanakishev/spring-lab-01/pull/5
 
-![Figure 6: Official GitHub Pull Request #5 (lab06 -> main)](screenshot_github_pr.png)
-*Figure 6: Official GitHub Pull Request #5 (lab06 -> main) with all commits and branch comparison*
+![Figure 7: Official GitHub Pull Request #5 (lab06 -> main)](screenshot_github_pr.png)
+*Figure 7: Official GitHub Pull Request #5 (lab06 -> main) with all commits and branch comparison*
 
 ### 4.3. Automated Test Suite Results
 All 33 test methods across the entire project pass with 0 failures and 0 errors:
