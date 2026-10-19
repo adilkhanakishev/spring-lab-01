@@ -10,6 +10,7 @@
 **Lecturer:** Yemberdiyeva Aknur, Senior Lector  
 **Branch:** `lab07`  
 **Repository:** https://github.com/adilkhanakishev/spring-lab-01/tree/lab07  
+**Pull Request:** https://github.com/adilkhanakishev/spring-lab-01/pull/6  
 
 ---
 
@@ -403,6 +404,11 @@ Field analysis per RFC 9457:
 ![Figure 3: Individual Variant 2 Sorting and Filtering](docs/figures/fig3_variant2_sorting.png)
 
 *Figure 3 displays sorting books by `year,desc` filtered by `genre=NON_FICTION`, followed by an invalid sort field request `?sort=isbn,asc` which generates a `400 Bad Request` ProblemDetail highlighting `field: "isbn"`.*
+
+### Figure 4: Official GitHub Pull Request #6
+![Figure 4: GitHub Pull Request #6](docs/figures/fig4_github_pr6.png)
+
+*Figure 4 illustrates the official GitHub Pull Request #6 created from branch `lab07` into `main`, documenting all 8 commits, 63 changed files, and successful completion of Laboratory Work No. 7.*
 
 ---
 

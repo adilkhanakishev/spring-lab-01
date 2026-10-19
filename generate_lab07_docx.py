@@ -79,7 +79,7 @@ meta_data = [
      ("Variant:", " 2 (Sorting and filtering: ?sort=year,desc&genre=NOVEL)")],
     [("Branch:", " lab07"), 
      ("Repository:", " https://github.com/adilkhanakishev/spring-lab-01/tree/lab07")],
-    [("Status Codes Tested:", " 200, 201 + Location, 204, 400, 404, 409"), 
+    [("Pull Request:", " https://github.com/adilkhanakishev/spring-lab-01/pull/6"), 
      ("Date:", " October 2026")]
 ]
 
@@ -462,6 +462,18 @@ if os.path.exists("docs/figures/fig3_variant2_sorting.png"):
     r_cap3 = p_cap3.add_run("Figure 3: Individual Variant 2 Execution — Sorting, Filtering, and Validation")
     r_cap3.font.italic = True
     r_cap3.font.size = Pt(8.5)
+
+doc.add_paragraph().paragraph_format.space_after = Pt(4)
+
+if os.path.exists("docs/figures/fig4_github_pr6.png"):
+    p_img4 = doc.add_paragraph()
+    p_img4.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    doc.add_picture("docs/figures/fig4_github_pr6.png", width=Inches(6.5))
+    p_cap4 = doc.add_paragraph()
+    p_cap4.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    r_cap4 = p_cap4.add_run("Figure 4: Official GitHub Pull Request #6 (lab07 -> main)")
+    r_cap4.font.italic = True
+    r_cap4.font.size = Pt(8.5)
 
 # 7. Individual Variant 2
 add_heading_1("7. Individual Assignment: Variant 2 (Sorting & Filtering)")
