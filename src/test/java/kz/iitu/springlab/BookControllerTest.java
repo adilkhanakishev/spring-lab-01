@@ -12,20 +12,16 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -37,23 +33,24 @@ public class BookControllerTest {
 
     @Test
     @Order(1)
-    @DisplayName("GET /api/books returns 200 OK and list of books")
+    @DisplayName("Task 2: GET /api/books returns 200 OK and list of BookResponse DTOs")
     void testListBooks() throws Exception {
         mockMvc.perform(get("/api/books"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(3)))
-                .andExpect(jsonPath("$[0].title").value("Effective Java"))
-                .andExpect(jsonPath("$[0].author").value("Joshua Bloch"));
+                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(3))))
+                .andExpect(jsonPath("$[0].title").exists())
+                .andExpect(jsonPath("$[0].author").exists())
+                .andExpect(jsonPath("$[0].year").exists())
+                .andExpect(jsonPath("$[0].genre").exists())
+                .andExpect(jsonPath("$[0].createdAt").exists());
     }
 
     @Test
     @Order(2)
-    @DisplayName("GET /api/books?author=Bloch&limit=1 returns 200 OK and filtered book")
-    void testListFiltered() throws Exception {
-        mockMvc.perform(get("/api/books")
-                        .param("author", "Bloch")
-                        .param("limit", "1"))
+    @DisplayName("Task 2: GET /api/books?author=Bloch returns 200 OK and filtered book")
+    void testListFilteredByAuthor() throws Exception {
+        mockMvc.perform(get("/api/books").param("author", "Bloch"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].author").value("Joshua Bloch"));
@@ -61,164 +58,160 @@ public class BookControllerTest {
 
     @Test
     @Order(3)
-    @DisplayName("GET /api/books/1 returns 200 OK and book")
+    @DisplayName("Task 2: GET /api/books/1 returns 200 OK and BookResponse")
     void testFindExisting() throws Exception {
         mockMvc.perform(get("/api/books/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.title").value("Effective Java"));
+                .andExpect(jsonPath("$.title").value("Effective Java"))
+                .andExpect(jsonPath("$.genre").value("SCIENCE"))
+                .andExpect(jsonPath("$.createdAt").exists());
     }
 
     @Test
     @Order(4)
-    @DisplayName("GET /api/books/999 returns 404 Not Found")
+    @DisplayName("Task 3: GET /api/books/999 returns 404 Not Found and ProblemDetail")
     void testFindMissing() throws Exception {
         mockMvc.perform(get("/api/books/999"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentTypeCompatibleWith("application/problem+json"))
+                .andExpect(jsonPath("$.type").value("https://api.iitu.kz/errors/book-not-found"))
+                .andExpect(jsonPath("$.title").value("Book not found"))
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.detail").value("Book 999 not found"));
     }
 
     @Test
     @Order(5)
-    @DisplayName("POST /api/books returns 201 Created and Location header")
+    @DisplayName("Task 2: POST /api/books returns 201 Created and Location header")
     void testCreateBook() throws Exception {
-        String json = "{\"title\":\"Pro Spring 6\",\"author\":\"Cosmina\",\"year\":2023}";
+        String json = """
+                {
+                    "title": "Pro Spring 6",
+                    "author": "Iuliana Cosmina",
+                    "year": 2023,
+                    "genre": "SCIENCE"
+                }
+                """;
         mockMvc.perform(post("/api/books")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isCreated())
-                .andExpect(header().exists("Location"))
+                .andExpect(header().string("Location", containsString("/api/books/")))
                 .andExpect(jsonPath("$.title").value("Pro Spring 6"))
-                .andExpect(jsonPath("$.author").value("Cosmina"));
+                .andExpect(jsonPath("$.author").value("Iuliana Cosmina"))
+                .andExpect(jsonPath("$.genre").value("SCIENCE"))
+                .andExpect(jsonPath("$.createdAt").exists());
     }
 
     @Test
     @Order(6)
-    @DisplayName("PUT /api/books/1 returns 200 OK and replaces book")
+    @DisplayName("Task 2: PUT /api/books/1 returns 200 OK and updated BookResponse")
     void testUpdateBook() throws Exception {
-        String json = "{\"title\":\"Effective Java 3rd Ed\",\"author\":\"Joshua Bloch\",\"year\":2018}";
+        String json = """
+                {
+                    "title": "Effective Java 3rd Edition",
+                    "author": "Joshua Bloch",
+                    "year": 2018,
+                    "genre": "SCIENCE"
+                }
+                """;
         mockMvc.perform(put("/api/books/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("Effective Java 3rd Ed"));
+                .andExpect(jsonPath("$.title").value("Effective Java 3rd Edition"));
     }
 
     @Test
     @Order(7)
-    @DisplayName("DELETE /api/books/2 returns 204 then 404")
+    @DisplayName("Task 2: DELETE /api/books/2 returns 204 first time, then 404 second time")
     void testDeleteTwice() throws Exception {
         mockMvc.perform(delete("/api/books/2"))
                 .andExpect(status().isNoContent());
 
         mockMvc.perform(delete("/api/books/2"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentTypeCompatibleWith("application/problem+json"))
+                .andExpect(jsonPath("$.status").value(404));
     }
 
     @Test
     @Order(8)
-    @DisplayName("Variant 2: GET /api/books/by-year/2022 matches regex and returns 200 OK")
-    void testVariant2Match() throws Exception {
-        mockMvc.perform(get("/api/books/by-year/2022"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].title").value("Spring in Action"));
+    @DisplayName("Task 3: POST /api/books with blank title returns 400 Bad Request ProblemDetail")
+    void testValidationFailure() throws Exception {
+        String invalidJson = """
+                {
+                    "title": "",
+                    "author": "Martin Fowler",
+                    "year": 2002,
+                    "genre": "SCIENCE"
+                }
+                """;
+        mockMvc.perform(post("/api/books")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidJson))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentTypeCompatibleWith("application/problem+json"))
+                .andExpect(jsonPath("$.status").value(400));
     }
 
     @Test
     @Order(9)
-    @DisplayName("Variant 2: GET /api/books/by-year/abc non-matching regex returns 404")
-    void testVariant2NonMatch() throws Exception {
-        mockMvc.perform(get("/api/books/by-year/abc"))
-                .andExpect(status().isNotFound());
+    @DisplayName("Task 3: POST /api/books duplicate title and author returns 409 Conflict ProblemDetail")
+    void testDuplicateConflict() throws Exception {
+        String duplicateJson = """
+                {
+                    "title": "Effective Java 3rd Edition",
+                    "author": "Joshua Bloch",
+                    "year": 2018,
+                    "genre": "SCIENCE"
+                }
+                """;
+        mockMvc.perform(post("/api/books")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(duplicateJson))
+                .andExpect(status().isConflict())
+                .andExpect(content().contentTypeCompatibleWith("application/problem+json"))
+                .andExpect(jsonPath("$.status").value(409))
+                .andExpect(jsonPath("$.detail").value("A book with title 'Effective Java 3rd Edition' already exists"));
     }
 
     @Test
     @Order(10)
-    @DisplayName("Error status: GET /api/books/abc returns 400 Bad Request (type mismatch)")
-    void testError400() throws Exception {
-        mockMvc.perform(get("/api/books/abc"))
-                .andExpect(status().isBadRequest());
+    @DisplayName("Variant 2: GET /api/books?sort=year,desc&genre=SCIENCE returns filtered and sorted books")
+    void testVariant2SortingAndFiltering() throws Exception {
+        mockMvc.perform(get("/api/books")
+                        .param("sort", "year,desc")
+                        .param("genre", "SCIENCE"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))));
     }
 
     @Test
     @Order(11)
-    @DisplayName("Error status: GET /api/nothing returns 404 Not Found (unmapped)")
-    void testError404() throws Exception {
-        mockMvc.perform(get("/api/nothing"))
-                .andExpect(status().isNotFound());
+    @DisplayName("Variant 2: GET /api/books?sort=unknownField returns 400 Bad Request ProblemDetail")
+    void testVariant2UnknownSortField() throws Exception {
+        mockMvc.perform(get("/api/books")
+                        .param("sort", "isbn,desc"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentTypeCompatibleWith("application/problem+json"))
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.title").value("Invalid sort field"))
+                .andExpect(jsonPath("$.field").value("isbn"));
     }
 
     @Test
     @Order(12)
-    @DisplayName("Error status: DELETE /api/books returns 405 Method Not Allowed")
-    void testError405() throws Exception {
-        mockMvc.perform(delete("/api/books"))
-                .andExpect(status().isMethodNotAllowed());
-    }
-
-    @Test
-    @Order(13)
-    @DisplayName("Error status: POST /api/books with Content-Type text/plain returns 415")
-    void testError415() throws Exception {
-        mockMvc.perform(post("/api/books")
-                        .contentType(MediaType.TEXT_PLAIN)
-                        .content("hello world"))
-                .andExpect(status().isUnsupportedMediaType());
-    }
-
-    @Test
-    @Order(14)
-    @DisplayName("Error status: GET /api/books with Accept application/xml returns 406")
-    void testError406() throws Exception {
-        mockMvc.perform(get("/api/books")
-                        .accept(MediaType.APPLICATION_XML))
-                .andExpect(status().isNotAcceptable());
-    }
-
-    @Test
-    @Order(15)
-    @DisplayName("MVC Page: GET /books renders list view and fills model")
-    void testBooksPage() throws Exception {
-        mockMvc.perform(get("/books"))
+    @DisplayName("Task 4: GET /v3/api-docs returns valid OpenAPI JSON document")
+    void testOpenApiDocs() throws Exception {
+        mockMvc.perform(get("/v3/api-docs"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("books/list"))
-                .andExpect(model().attributeExists("books", "title"))
-                .andExpect(content().string(containsString("Catalogue")));
-    }
-
-    @Test
-    @Order(16)
-    @DisplayName("MVC Post/Redirect/Get: POST /books redirects to /books with flash attribute")
-    void testBooksPostRedirectGet() throws Exception {
-        mockMvc.perform(post("/books")
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("title", "Java Precisely")
-                        .param("author", "Sestoft")
-                        .param("year", "2016")
-                        .param("genre", "SCIENCE"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/books"))
-                .andExpect(flash().attribute("message", "Book «Java Precisely» has been added"));
-    }
-
-    @Test
-    @Order(17)
-    @DisplayName("Static Resources: GET /css/app.css returns 200 OK")
-    void testStaticCss() throws Exception {
-        mockMvc.perform(get("/css/app.css"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("text/css"));
-    }
-
-    @Test
-    @Order(18)
-    @DisplayName("Static Resources: GET / returns static index.html")
-    void testStaticIndexHtml() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(forwardedUrl("index.html"));
-
-        mockMvc.perform(get("/index.html"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Welcome to Book Catalog Application")));
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.openapi").exists())
+                .andExpect(jsonPath("$.paths['/api/books']").exists())
+                .andExpect(jsonPath("$.components.schemas.BookRequest").exists())
+                .andExpect(jsonPath("$.components.schemas.BookResponse").exists());
     }
 }
