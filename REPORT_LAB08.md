@@ -14,6 +14,9 @@
 ---
 
 ## 1. Aim of the Work
+
+![Figure 1. Application starting against PostgreSQL](docs/figures/fig1_app_started.png)
+
 The objective of this laboratory work is to replace the in-memory map/list storage that carried the catalogue resource in previous laboratory works with a production-grade relational database management system (PostgreSQL 17). By completing this work:
 1. The application connects to PostgreSQL using HikariCP connection pooling and Spring Data JPA / Hibernate ORM with the `create-drop` DDL schema strategy.
 2. The domain model is transformed from Java records into persistent JPA entities: `Book` (with identity ID, string-mapped enum, creation timestamp, optimistic locking version), `Author`, and `Tag`.
@@ -168,6 +171,9 @@ Referenced by:
 
 ## 5. Seed Data in the Database
 
+![Figure 3. Seed data rows in author and book tables](docs/figures/fig3_select_rows.png)
+
+
 The database was initialized via `DatabaseInitializer` (`CommandLineRunner`) with 3 authors, 8 books, and 4 tags, meeting all Task 2.2 requirements (at least one author owning 3 books, at least one book carrying 2 tags):
 
 ```sql
@@ -295,6 +301,9 @@ Hibernate:
 
 ## 7. The N+1 Exercise and Analysis (Task 3.4)
 
+![Figure 6. Hibernate SQL logs in IntelliJ IDEA console](docs/figures/fig6_n_plus_one_sql.png)
+
+
 ### 7.1. Query Counts Comparison
 
 | Scenario | Java Call / Method | Total SQL Statements | Explanation |
@@ -349,6 +358,11 @@ Hibernate:
 ---
 
 ## 8. Pagination and Sorting (Task 4)
+
+![Figure 4. Paged and sorted collection endpoint response](docs/figures/fig4_paged_sorted.png)
+
+![Figure 5. RFC 9457 ProblemDetail 400 Bad Request](docs/figures/fig5_invalid_sort_400.png)
+
 
 ### 8.1. Paged Request: `GET /api/books?page=1&size=3&sort=year,desc`
 HTTP Request:
@@ -829,3 +843,9 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 ## 12. Conclusions
 
 Spring Data JPA and Hibernate ORM provide immense developer productivity by automating schema generation, generating standard and derived queries directly from method signatures, abstracting pagination and sorting, and maintaining transactional consistency through dirty checking. However, this abstraction layer comes with critical trade-offs: developers must deeply understand JPA lifecycle mechanics, owning vs. inverse association rules, and query generation pitfalls. Neglecting these internals can easily introduce subtle bugs such as the N+1 select problem, lazy initialization exceptions under `open-in-view: false`, and lost updates without optimistic locking. Mastering the generated SQL ensures high-performance, predictable, and robust enterprise data access layers.
+
+## 13. Testing and Swagger UI Documentation
+
+![Figure 8. Maven tests passing](docs/figures/fig8_mvn_test_success.png)
+
+![Figure 9. Interactive Swagger UI](docs/figures/fig9_swagger_ui.png)

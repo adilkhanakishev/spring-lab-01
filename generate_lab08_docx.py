@@ -128,14 +128,35 @@ def add_code(text):
     run.font.size = Pt(8.5)
     run.font.color.rgb = RGBColor(0x0F, 0x17, 0x2A)
 
+def add_figure(img_path, caption):
+    if os.path.exists(img_path):
+        p_img = doc.add_paragraph()
+        p_img.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p_img.paragraph_format.space_before = Pt(6)
+        p_img.paragraph_format.space_after = Pt(2)
+        run_img = p_img.add_run()
+        run_img.add_picture(img_path, width=Inches(6.2))
+        
+        p_cap = doc.add_paragraph()
+        p_cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p_cap.paragraph_format.space_after = Pt(8)
+        run_cap = p_cap.add_run(caption)
+        run_cap.font.size = Pt(9)
+        run_cap.font.italic = True
+        run_cap.font.color.rgb = RGBColor(0x64, 0x74, 0x8B)
+
+figures_dir = r"C:\Users\Asus\Desktop\spring-lab-01\docs\figures"
+
 # Section 1
 add_heading("1. Aim of the Work")
-p = doc.add_paragraph(
+doc.add_paragraph(
     "To replace the in-memory map/list storage that carried the catalogue resource in previous laboratory works with a real database (PostgreSQL 17). "
     "The project maps persistent entities (Book, Author, Tag, and BookTag) with @OneToMany and @ManyToMany associations, answers five derived queries "
     "and two JPQL queries (including a bulk update), demonstrates and resolves the N+1 select problem using JOIN FETCH, and makes the collection "
     "REST endpoint paged and sorted with Pageable and Slice metadata."
 )
+
+add_figure(os.path.join(figures_dir, "fig1_app_started.png"), "Figure 1. Application starting against PostgreSQL with Hibernate DDL and database seeding")
 
 # Section 2
 add_heading("2. Entity Diagram and Association Cardinalities")
@@ -149,13 +170,7 @@ doc.add_paragraph(
 # Section 3
 add_heading("3. Database Schema Verification (PostgreSQL 17 psql)")
 doc.add_paragraph("Output of psql \\dt (List of relations):")
-add_code(""" Schema |   Name   | Type  |   Owner   
---------+----------+-------+-----------
- public | author   | table | springlab
- public | book     | table | springlab
- public | book_tag | table | springlab
- public | tag      | table | springlab
-(4 rows)""")
+add_figure(os.path.join(figures_dir, "fig2_tables_dt.png"), "Figure 2. PostgreSQL relations (\\dt) showing 4 created tables (author, book, book_tag, tag)")
 
 doc.add_paragraph("Output of psql \\d book:")
 add_code("""                                        Table "public.book"
@@ -212,8 +227,13 @@ for i, row_data in enumerate(t23_data):
 
 doc.add_paragraph().paragraph_format.space_after = Pt(6)
 
-# Section 5: Task 3.3 Table
-add_heading("5. Task 3.3 Query Execution Table")
+# Section 5: Seed Data
+add_heading("5. Database Seed Data Verification")
+doc.add_paragraph("Verification of seed data in author and book tables:")
+add_figure(os.path.join(figures_dir, "fig3_select_rows.png"), "Figure 3. Seed data rows in author and book tables with author_id foreign keys")
+
+# Section 6: Task 3.3 Table
+add_heading("6. Task 3.3 Query Execution Table")
 t33 = doc.add_table(rows=6, cols=3)
 t33.alignment = WD_TABLE_ALIGNMENT.CENTER
 set_table_borders(t33)
@@ -241,56 +261,43 @@ for i, row_data in enumerate(t33_data):
 
 doc.add_paragraph().paragraph_format.space_after = Pt(6)
 
-# Section 6: N+1
-add_heading("6. The N+1 Exercise and Analysis (Task 3.4)")
+# Section 7: N+1
+add_heading("7. The N+1 Exercise and Analysis (Task 3.4)")
 doc.add_paragraph(
     "• Without fetch join: 4 SQL statements (1 statement to select all 8 books + 3 distinct SELECT queries for uninitialized Author proxies).\n"
     "• With fetch join (join fetch b.author): Exactly 1 SQL statement with an INNER JOIN loading both Book and Author simultaneously."
 )
-add_code("""-- Fetch join SQL:
-Hibernate: 
-    select
-        b1_0.id, b1_0.archived, a1_0.id, a1_0.country, a1_0.name, b1_0.genre, b1_0.title, b1_0.year 
-    from
-        book b1_0 
-    join
-        author a1_0 on a1_0.id=b1_0.author_id""")
+add_figure(os.path.join(figures_dir, "fig6_n_plus_one_sql.png"), "Figure 6. Hibernate SQL logs in IntelliJ IDEA console demonstrating query execution")
 
-# Section 7: Pagination
-add_heading("7. Pagination and Sorting (Task 4)")
+# Section 8: Pagination
+add_heading("8. Pagination and Sorting (Task 4)")
 doc.add_paragraph("Request: GET /api/books?page=1&size=3&sort=year,desc")
-add_code("""{
-  "content": [
-    { "id": 5, "title": "Clean Architecture: Craftsman Guide", "author": "Robert Martin", "year": 2017 },
-    { "id": 6, "title": "The Clean Coder", "author": "Robert Martin", "year": 2011 },
-    { "id": 4, "title": "Clean Code", "author": "Robert Martin", "year": 2008 }
-  ],
-  "totalElements": 8,
-  "totalPages": 3,
-  "number": 1,
-  "size": 3
-}""")
+add_figure(os.path.join(figures_dir, "fig4_paged_sorted.png"), "Figure 4. Paged and sorted collection endpoint response (page=1&size=3&sort=year,desc)")
 
 doc.add_paragraph(
     "• Page<Book> causes 2 SQL statements: one paginated SELECT with OFFSET/LIMIT and one COUNT(*) query.\n"
     "• Slice<Book> causes only 1 SQL statement (SELECT ... LIMIT (size + 1) OFFSET ...), avoiding the expensive COUNT query.\n"
-    "• In invalid sort (sort=nosuchfield), Spring Data throws PropertyReferenceException, handled as 400 Bad Request ProblemDetail."
+    "• In invalid sort (sort=nosuchfield), Spring Data throws PropertyReferenceException, handled as 400 Bad Request ProblemDetail:"
 )
+add_figure(os.path.join(figures_dir, "fig5_invalid_sort_400.png"), "Figure 5. RFC 9457 ProblemDetail 400 Bad Request response for unknown sort field")
 
-# Section 8: Variant 2
-add_heading("8. Individual Variant 2: BookTag Entity with addedAt")
+# Section 9: Variant 2
+add_heading("9. Individual Variant 2: BookTag Entity with addedAt")
 doc.add_paragraph(
     "Demonstration output of GET /api/demo/variant2/book-tags showing attributes stored on the join table:"
 )
-add_code("""[
-  { "bookId": 1, "bookTitle": "Effective Java", "tagId": 1, "tagName": "Java", "addedAt": "2026-10-26T22:53:34.172324Z" },
-  { "bookId": 1, "bookTitle": "Effective Java", "tagId": 3, "tagName": "BestPractices", "addedAt": "2026-10-26T22:53:34.172897Z" },
-  { "bookId": 4, "bookTitle": "Clean Code", "tagId": 2, "tagName": "Architecture", "addedAt": "2026-10-26T22:53:34.202370Z" },
-  { "bookId": 7, "bookTitle": "Spring in Action", "tagId": 4, "tagName": "Spring", "addedAt": "2026-10-26T22:53:34.215744Z" }
-]""")
+add_figure(os.path.join(figures_dir, "fig7_variant2_book_tags.png"), "Figure 7. Individual Variant 2 attributed Many-to-Many associations with addedAt timestamp")
 
-# Section 9: Defense Questions
-add_heading("9. Key Demonstration Defence Questions")
+# Section 10: Tests and Swagger
+add_heading("10. Testing and Interactive API Documentation")
+doc.add_paragraph("Execution of all 33 unit and integration tests with Maven:")
+add_figure(os.path.join(figures_dir, "fig8_mvn_test_success.png"), "Figure 8. All 33 unit and integration tests passing successfully (BUILD SUCCESS)")
+
+doc.add_paragraph("Swagger UI OpenAPI 3.1 interactive specification:")
+add_figure(os.path.join(figures_dir, "fig9_swagger_ui.png"), "Figure 9. Interactive OpenAPI 3.1 Swagger UI documentation")
+
+# Section 11: Defense Questions
+add_heading("11. Key Demonstration Defence Questions")
 questions = [
     ("Why can Book no longer be a record?", "JPA requires a non-final class for proxy generation, a no-arg constructor for reflection, and mutable instance fields for dirty checking."),
     ("What does @GeneratedValue(strategy = IDENTITY) do?", "Delegates PK generation to PostgreSQL's native IDENTITY/BIGSERIAL column. Value is assigned upon SQL INSERT."),
@@ -312,8 +319,8 @@ for q, a in questions:
     ra = p.add_run(f"A: {a}")
     ra.font.size = Pt(9.5)
 
-# Section 10: Conclusions
-add_heading("10. Conclusions")
+# Section 12: Conclusions
+add_heading("12. Conclusions")
 doc.add_paragraph(
     "Spring Data JPA and Hibernate ORM provide immense developer productivity by automating schema generation, synthesizing queries from "
     "method signatures, handling pagination/sorting, and maintaining consistency via dirty checking. However, developers must understand JPA lifecycle "
@@ -321,6 +328,6 @@ doc.add_paragraph(
     "open-in-view: false, and lost updates without optimistic locking."
 )
 
-out_path = r"C:\Users\Asus\Desktop\spring-lab-01\Lab08_Akishev_IS-2406.docx"
+out_path = r"C:\Users\Asus\Desktop\spring-lab-01\Lab08_Akishev_IS-2406_final.docx"
 doc.save(out_path)
-print(f"Generated {out_path} successfully!")
+print(f"Generated {out_path} with all embedded figures successfully!")
