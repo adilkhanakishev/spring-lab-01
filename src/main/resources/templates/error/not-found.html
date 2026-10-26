@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{error.notfound.title}">Book Not Found</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+    <div class="error-page-container">
+        <h1 th:text="#{error.notfound.heading}">404 — Not Found</h1>
+        <p class="error-detail" th:text="${message}">Book not found</p>
+        <p>
+            <a th:href="@{/books}" class="btn-link" th:text="#{error.back}">Back to catalogue</a>
+        </p>
+    </div>
+</body>
+</html>

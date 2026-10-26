@@ -1,0 +1,84 @@
+### 1. GET Collection: List all books (200 OK)
+GET http://localhost:8080/api/books
+Accept: application/json
+
+### 2. GET Item: Find existing book by ID (200 OK)
+GET http://localhost:8080/api/books/1
+Accept: application/json
+
+### 3. GET Item: Missing ID -> 404 Not Found (ProblemDetail RFC 9457)
+GET http://localhost:8080/api/books/999
+Accept: application/json
+
+### 4. POST: Create a new valid book -> 201 Created + Location Header
+POST http://localhost:8080/api/books
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Design Patterns: Elements of Reusable Object-Oriented Software",
+  "author": "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides",
+  "year": 1994,
+  "genre": "SCIENCE"
+}
+
+### 5. PUT: Update an existing book -> 200 OK
+PUT http://localhost:8080/api/books/1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Effective Java 3rd Edition",
+  "author": "Joshua Bloch",
+  "year": 2018,
+  "genre": "SCIENCE"
+}
+
+### 6. DELETE: Delete existing book -> 204 No Content
+DELETE http://localhost:8080/api/books/1
+
+### 7. DELETE: Repeat DELETE of the same book -> 404 Not Found (ProblemDetail)
+DELETE http://localhost:8080/api/books/1
+
+### 8. Error Route 1: Missing Book (404 Not Found)
+GET http://localhost:8080/api/books/999
+Accept: application/problem+json
+
+### 9. Error Route 2: Validation failure - Empty title -> 400 Bad Request
+POST http://localhost:8080/api/books
+Content-Type: application/json
+Accept: application/problem+json
+
+{
+  "title": "",
+  "author": "Martin Fowler",
+  "year": 2002,
+  "genre": "SCIENCE"
+}
+
+### 10. Error Route 3: Duplicate title & author conflict -> 409 Conflict
+POST http://localhost:8080/api/books
+Content-Type: application/json
+Accept: application/problem+json
+
+{
+  "title": "Clean Code",
+  "author": "Robert Martin",
+  "year": 2008,
+  "genre": "NON_FICTION"
+}
+
+### 11. Variant 2: Sorting and filtering (?sort=year,desc&genre=SCIENCE)
+GET http://localhost:8080/api/books?sort=year,desc&genre=SCIENCE
+Accept: application/json
+
+### 12. Variant 2: Unknown sort field -> 400 Bad Request (ProblemDetail)
+GET http://localhost:8080/api/books?sort=isbn,desc
+Accept: application/problem+json
+
+### 13. OpenAPI Specification: JSON Document
+GET http://localhost:8080/v3/api-docs
+Accept: application/json
+
+### 14. Swagger UI: Web Interface
+GET http://localhost:8080/swagger-ui.html
