@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import kz.iitu.springlab.web.Genre;
 
 import java.time.Instant;
+import java.util.Set;
 
 @Schema(description = "Representation of a book in the catalog")
 public record BookResponse(
@@ -23,4 +24,15 @@ public record BookResponse(
         Genre genre,
 
         @Schema(description = "Timestamp when the book was created on the server")
-        Instant createdAt) { }
+        Instant createdAt,
+
+        @Schema(description = "Whether the book is archived")
+        boolean archived,
+
+        @Schema(description = "Associated tags")
+        Set<String> tags) {
+
+    public BookResponse(Long id, String title, String author, int year, Genre genre, Instant createdAt) {
+        this(id, title, author, year, genre, createdAt, false, Set.of());
+    }
+}

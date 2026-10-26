@@ -33,27 +33,28 @@ public class BookControllerTest {
 
     @Test
     @Order(1)
-    @DisplayName("Task 2: GET /api/books returns 200 OK and list of BookResponse DTOs")
+    @DisplayName("Task 4: GET /api/books returns 200 OK and paged BookResponse DTOs")
     void testListBooks() throws Exception {
         mockMvc.perform(get("/api/books"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(3))))
-                .andExpect(jsonPath("$[0].title").exists())
-                .andExpect(jsonPath("$[0].author").exists())
-                .andExpect(jsonPath("$[0].year").exists())
-                .andExpect(jsonPath("$[0].genre").exists())
-                .andExpect(jsonPath("$[0].createdAt").exists());
+                .andExpect(jsonPath("$.content", hasSize(greaterThanOrEqualTo(3))))
+                .andExpect(jsonPath("$.content[0].title").exists())
+                .andExpect(jsonPath("$.content[0].author").exists())
+                .andExpect(jsonPath("$.content[0].year").exists())
+                .andExpect(jsonPath("$.content[0].genre").exists())
+                .andExpect(jsonPath("$.content[0].createdAt").exists())
+                .andExpect(jsonPath("$.totalElements").exists());
     }
 
     @Test
     @Order(2)
-    @DisplayName("Task 2: GET /api/books?author=Bloch returns 200 OK and filtered book")
-    void testListFilteredByAuthor() throws Exception {
-        mockMvc.perform(get("/api/books").param("author", "Bloch"))
+    @DisplayName("Task 4: GET /api/books?genre=SCIENCE returns 200 OK and filtered page")
+    void testListFilteredByGenre() throws Exception {
+        mockMvc.perform(get("/api/books").param("genre", "SCIENCE"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].author").value("Joshua Bloch"));
+                .andExpect(jsonPath("$.content", hasSize(greaterThanOrEqualTo(1))))
+                .andExpect(jsonPath("$.content[0].genre").value("SCIENCE"));
     }
 
     @Test
@@ -179,27 +180,27 @@ public class BookControllerTest {
 
     @Test
     @Order(10)
-    @DisplayName("Variant 2: GET /api/books?sort=year,desc&genre=SCIENCE returns filtered and sorted books")
-    void testVariant2SortingAndFiltering() throws Exception {
+    @DisplayName("Task 4: GET /api/books?sort=year,desc&genre=SCIENCE returns paged and sorted books")
+    void testPaginationAndSorting() throws Exception {
         mockMvc.perform(get("/api/books")
                         .param("sort", "year,desc")
                         .param("genre", "SCIENCE"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))));
+                .andExpect(jsonPath("$.content", hasSize(greaterThanOrEqualTo(1))));
     }
 
     @Test
     @Order(11)
-    @DisplayName("Variant 2: GET /api/books?sort=unknownField returns 400 Bad Request ProblemDetail")
-    void testVariant2UnknownSortField() throws Exception {
+    @DisplayName("Task 4: GET /api/books?sort=nosuchfield returns 400 Bad Request ProblemDetail")
+    void testUnknownSortField() throws Exception {
         mockMvc.perform(get("/api/books")
-                        .param("sort", "isbn,desc"))
+                        .param("sort", "nosuchfield,desc"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentTypeCompatibleWith("application/problem+json"))
                 .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.title").value("Invalid sort field"))
-                .andExpect(jsonPath("$.field").value("isbn"));
+                .andExpect(jsonPath("$.field").value("nosuchfield"));
     }
 
     @Test
