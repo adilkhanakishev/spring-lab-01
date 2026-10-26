@@ -9,7 +9,8 @@
 **Variant:** 2 (A @ManyToMany with attributes: A `BookTag` entity with an added `addedAt` column instead of a plain join table)  
 **Lecturer:** Yemberdiyeva Aknur, Senior Lector  
 **Branch:** `lab08`  
-**Repository:** https://github.com/adilkhanakishev/spring-lab-01/tree/lab08  
+**Repository:** https://github.com/adilkhanakishev/spring-lab-01/tree/lab08
+**Pull Request:** https://github.com/adilkhanakishev/spring-lab-01/pull/7  
 
 ---
 
@@ -849,3 +850,5 @@ Spring Data JPA and Hibernate ORM provide immense developer productivity by auto
 ![Figure 8. Maven tests passing](docs/figures/fig8_mvn_test_success.png)
 
 ![Figure 9. Interactive Swagger UI](docs/figures/fig9_swagger_ui.png)
+
+![Figure 10. Official GitHub Pull Request #7](docs/figures/fig10_github_pr.png)

@@ -67,7 +67,7 @@ run_topic.font.size = Pt(11)
 run_topic.font.color.rgb = RGBColor(0x33, 0x41, 0x55)
 
 # --- Metadata Table ---
-table_meta = doc.add_table(rows=6, cols=2)
+table_meta = doc.add_table(rows=7, cols=2)
 table_meta.alignment = WD_TABLE_ALIGNMENT.CENTER
 set_table_borders(table_meta)
 
@@ -77,7 +77,8 @@ meta_data = [
     ("Student", "Akishev Adilkhan (Акишев Адилхан) | Group: IS-2406 (2406IS)"),
     ("Individual Variant", "Variant 2: Attributed @ManyToMany (BookTag entity with addedAt column)"),
     ("Lecturer", "Yemberdiyeva Aknur, Senior Lector"),
-    ("Git Repository & Branch", "https://github.com/adilkhanakishev/spring-lab-01/tree/lab08")
+    ("Git Repository & Branch", "https://github.com/adilkhanakishev/spring-lab-01/tree/lab08"),
+    ("Official Pull Request", "https://github.com/adilkhanakishev/spring-lab-01/pull/7")
 ]
 
 for i, (k, v) in enumerate(meta_data):
@@ -289,12 +290,15 @@ doc.add_paragraph(
 add_figure(os.path.join(figures_dir, "fig7_variant2_book_tags.png"), "Figure 7. Individual Variant 2 attributed Many-to-Many associations with addedAt timestamp")
 
 # Section 10: Tests and Swagger
-add_heading("10. Testing and Interactive API Documentation")
+add_heading("10. Testing, Interactive API Documentation, and Pull Request")
 doc.add_paragraph("Execution of all 33 unit and integration tests with Maven:")
 add_figure(os.path.join(figures_dir, "fig8_mvn_test_success.png"), "Figure 8. All 33 unit and integration tests passing successfully (BUILD SUCCESS)")
 
 doc.add_paragraph("Swagger UI OpenAPI 3.1 interactive specification:")
 add_figure(os.path.join(figures_dir, "fig9_swagger_ui.png"), "Figure 9. Interactive OpenAPI 3.1 Swagger UI documentation")
+
+doc.add_paragraph("Official GitHub Pull Request #7 (lab08 -> main):")
+add_figure(os.path.join(figures_dir, "fig10_github_pr.png"), "Figure 10. Official GitHub Pull Request #7 submitted on repository")
 
 # Section 11: Defense Questions
 add_heading("11. Key Demonstration Defence Questions")
@@ -330,4 +334,4 @@ doc.add_paragraph(
 
 out_path = r"C:\Users\Asus\Desktop\spring-lab-01\Lab08_Akishev_IS-2406_final.docx"
 doc.save(out_path)
-print(f"Generated {out_path} with all embedded figures successfully!")
+print(f"Generated {out_path} with Figure 10 PR successfully!")
