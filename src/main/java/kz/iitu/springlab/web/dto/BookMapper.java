@@ -3,7 +3,6 @@ package kz.iitu.springlab.web.dto;
 import kz.iitu.springlab.catalog.Book;
 import kz.iitu.springlab.catalog.BookTag;
 import kz.iitu.springlab.catalog.Tag;
-import org.hibernate.LazyInitializationException;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -20,27 +19,12 @@ public class BookMapper {
     }
 
     public BookResponse toResponse(Book book) {
-        String authorName = null;
-        try {
-            if (book.getAuthor() != null) {
-                authorName = book.getAuthor().getName();
-            }
-        } catch (LazyInitializationException e) {
-            authorName = null;
-        }
-
-        Set<String> tagNames = Set.of();
-        try {
-            if (book.getBookTags() != null) {
-                tagNames = book.getBookTags().stream()
-                        .map(BookTag::getTag)
-                        .filter(Objects::nonNull)
-                        .map(Tag::getName)
-                        .collect(Collectors.toSet());
-            }
-        } catch (LazyInitializationException e) {
-            tagNames = Set.of();
-        }
+        String authorName = book.getAuthor() == null ? null : book.getAuthor().getName();
+        Set<String> tagNames = book.getBookTags().stream()
+                .map(BookTag::getTag)
+                .filter(Objects::nonNull)
+                .map(Tag::getName)
+                .collect(Collectors.toSet());
 
         return new BookResponse(
                 book.getId(),
