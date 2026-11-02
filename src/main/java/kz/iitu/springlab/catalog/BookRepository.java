@@ -67,13 +67,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @EntityGraph(attributePaths = "author")
     Slice<Book> findSliceByGenre(Genre genre, Pageable pageable);
 
-    @EntityGraph(attributePaths = "author")
-    Slice<Book> findSliceBy(Pageable pageable);
-
-    // Fetch the tags for the selected page in one query, without paginating a collection join.
-    @Query("select distinct b from Book b left join fetch b.bookTags bt left join fetch bt.tag where b.id in :ids")
-    List<Book> fetchTagsForBooks(@Param("ids") List<Long> ids);
-
     @Override
     @EntityGraph(attributePaths = "author")
     Optional<Book> findById(Long id);

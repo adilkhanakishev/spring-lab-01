@@ -48,7 +48,6 @@ public class BookService {
         Page<Book> page = (genre != null)
                 ? repository.findByGenre(genre, pageable)
                 : repository.findAll(pageable);
-        fetchTags(page.getContent());
         return page.map(mapper::toResponse);
     }
 
@@ -56,15 +55,8 @@ public class BookService {
     public Slice<BookResponse> findSlice(Genre genre, Pageable pageable) {
         Slice<Book> slice = (genre != null)
                 ? repository.findSliceByGenre(genre, pageable)
-                : repository.findSliceBy(pageable);
-        fetchTags(slice.getContent());
+                : repository.findAll(pageable);
         return slice.map(mapper::toResponse);
-    }
-
-    private void fetchTags(List<Book> books) {
-        if (!books.isEmpty()) {
-            repository.fetchTagsForBooks(books.stream().map(Book::getId).toList());
-        }
     }
 
     // ---------------------------------------------------------
@@ -151,13 +143,6 @@ public class BookService {
     @Transactional(readOnly = true)
     public List<Book> findAll(String author) {
         return findAll(author, null, null);
-    }
-
-    @Transactional(readOnly = true)
-    public List<BookResponse> findAllResponses(String author, Genre genre, String sort) {
-        List<Book> books = findAll(author, genre, sort);
-        fetchTags(books);
-        return mapper.toResponseList(books);
     }
 
     @Transactional(readOnly = true)

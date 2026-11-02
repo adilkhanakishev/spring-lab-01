@@ -224,7 +224,7 @@ springlab=# SELECT bt.book_id, b.title, bt.tag_id, t.name, bt.added_at FROM book
 |---|---|---|---|
 | `findByGenre(Genre.SCIENCE)` | Derived query filtering by enum `SCIENCE` | 3 rows (`Effective Java`, `Java Puzzlers`, `Effective Java 2nd Edition`) | 1 |
 | `findByTitleContainingIgnoreCase("clean")` | Derived query with case-insensitive LIKE pattern | 3 rows (`Clean Code`, `Clean Architecture: Craftsman Guide`, `The Clean Coder`) | 1 |
-| `findByYearBetweenOrderByYearDesc(2005, 2020)` | Derived query filtering year range and sorting descending | 7 rows | 1 |
+| `findByYearBetweenOrderByYearDesc(2005, 2020)` | Derived query filtering year range and sorting descending | 6 rows | 1 |
 | `findTop3ByGenreOrderByYearDesc(Genre.SCIENCE)` | Derived query with `Top3` projection keyword and ordering | 3 rows | 1 |
 | `countByAuthorName("Joshua Bloch")` | Derived query traversing nested entity path `book.author.name` | Scalar `3` | 1 |
 | `search(Genre.SCIENCE, 2008)` | JPQL query with named parameters `:genre` and `:year` | 2 rows (`Effective Java`, `Effective Java 2nd Edition`) | 1 |
@@ -430,7 +430,7 @@ Response JSON:
 ```
 
 ### 8.2. SQL Statements Issued by `Page<Book>`
-For a full page of three books, the repository executes **2 SQL statements** to obtain the page and its total. The API then runs a third query to fetch all tags for those books before mapping the response. On a partial page Spring Data can infer the total and omit the count query.
+`Page<Book>` executed **2 SQL statements**:
 1. **Data Query** (fetches page content with LIMIT and OFFSET):
 ```sql
 Hibernate: 
@@ -467,8 +467,8 @@ Hibernate:
 ```
 
 ### 8.3. Comparison: `Page<T>` vs `Slice<T>`
-- **`Page<Book>`**: For the tested full page, the repository issues **2 SQL statements** (the data query + `count(*)`), plus one query to load response tags. It is useful where clients need page totals.
-- **`Slice<Book>`**: The repository issues **1 SQL statement** (`SELECT ... LIMIT (size + 1) OFFSET ...`), plus one query to load response tags. It checks whether a next slice exists without calculating the total. For empty results the extra tag query is omitted.
+- **`Page<Book>`**: Issues **2 SQL statements** (the data query + `count(*)`). It is ideal for desktop UIs, search results, and admin tables where users need direct pagination buttons (e.g. «Page 1 of 3», jump to page N).
+- **`Slice<Book>`**: Issues only **1 SQL statement** (`SELECT ... LIMIT (size + 1) OFFSET ...`). It does not calculate the total record count, but checks whether a next slice exists by requesting `size + 1` rows. It is significantly faster on large tables (millions of rows) where `COUNT(*)` is an expensive table or index scan. It is optimal for infinite scrolling (mobile feeds, social networks).
 - **Recommendation for Public REST API**: `Page<BookResponse>` is published as the primary contract because consumers need `totalElements` and `totalPages` to construct standard navigation UI controls. For high-throughput infinite feed endpoints, `Slice<BookResponse>` is exposed via `/api/books/slice`.
 
 ### 8.4. Handling Invalid Sort Field: `GET /api/books?sort=nosuchfield`
@@ -825,8 +825,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     - `join fetch`: Performs the SQL join **and** immediately fetches and initializes the associated entity/collection into the parent entity.
 
 18. **How many SQL statements does a `Page` cause? And a `Slice`? Why the difference?**  
-    - Repository `Page`: typically **2 SQL statements** (the data query + `COUNT(*)`); Spring Data may omit the count when it can infer the total from a partial page. The API adds one query for tags.
-    - Repository `Slice`: **1 SQL statement** (`SELECT ... LIMIT (size + 1) OFFSET ...`), plus one query for API response tags. It fetches one extra row to determine whether another slice exists.
+    - `Page`: **2 SQL statements** (the paginated data query + a `COUNT(*)` query). It requires the total count to calculate `totalElements` and `totalPages`.  
+    - `Slice`: **1 SQL statement** (`SELECT ... LIMIT (size + 1) OFFSET ...`). It does not compute the total count, querying 1 extra row to determine whether `hasNext()` is true.
 
 19. **What happened when you passed `sort=nosuchfield`? Why is that a run-time error?**  
     Spring Data JPA attempts to validate the sort property against entity attributes. Because `nosuchfield` does not exist on `Book`, it throws `PropertyReferenceException`. Our `ApiExceptionHandler` catches it and returns an RFC 9457 `400 Bad Request` ProblemDetail. It is a runtime error because query parameters arrive as dynamically parsed strings at HTTP request time.

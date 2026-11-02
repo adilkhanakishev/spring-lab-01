@@ -88,7 +88,7 @@ public class BookApiController {
             @RequestParam(required = false) String author,
             @RequestParam(required = false) Genre genre,
             @RequestParam(required = false) String sort) {
-        return service.findAllResponses(author, genre, sort);
+        return mapper.toResponseList(service.findAll(author, genre, sort));
     }
 
     @Operation(summary = "Get a single book by identifier")
