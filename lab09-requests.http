@@ -1,0 +1,14 @@
+### Accounts
+GET http://localhost:8089/api/accounts
+
+### Successful transfer
+POST http://localhost:8089/api/accounts/transfer
+Content-Type: application/json
+
+{"fromId":1,"toId":2,"amount":100.00}
+
+### Insufficient funds
+POST http://localhost:8089/api/accounts/transfer
+Content-Type: application/json
+
+{"fromId":1,"toId":2,"amount":999999.00}

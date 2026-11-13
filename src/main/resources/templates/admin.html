@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - Users & Roles</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body style="padding: 24px; font-family: sans-serif;">
+    <div style="background:#f1f5f9; padding: 12px 18px; margin-bottom: 24px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #cbd5e1;">
+        <div>
+            User: <strong sec:authentication="name" style="color: #1e40af;">admin</strong>
+            Authorities: <span sec:authentication="principal.authorities" style="color: #475569; font-family: monospace;">[ROLE_ADMIN]</span>
+        </div>
+        <div>
+            <a th:href="@{/books}" style="margin-right: 12px; text-decoration: none; color: #2563eb;">📚 Back to Books</a>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" style="padding: 5px 12px; cursor: pointer; border-radius: 4px; border: 1px solid #94a3b8; background: white;">Log out</button>
+            </form>
+        </div>
+    </div>
+
+    <h1>⚙️ Administration Dashboard</h1>
+    <p style="color: #64748b; margin-bottom: 20px;">Restricted Area: <code>hasRole('ADMIN')</code> required.</p>
+
+    <h2>Registered Users (<code>app_user</code> table)</h2>
+    <table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+        <tr style="background-color: #f8fafc;">
+            <th>ID</th>
+            <th>Username</th>
+            <th>Password Hash (BCrypt 60 chars)</th>
+            <th>Enabled</th>
+            <th>Assigned Roles</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}">1</td>
+            <td><strong th:text="${user.username}">user</strong></td>
+            <td><code th:text="${user.passwordHash}" style="font-size: 0.85em; background: #f1f5f9; padding: 2px 6px; border-radius: 3px;">$2a$10$...</code></td>
+            <td>
+                <span th:if="${user.enabled}" style="color: #16a34a; font-weight: bold;">ENABLED</span>
+                <span th:unless="${user.enabled}" style="color: #dc2626; font-weight: bold;">DISABLED</span>
+            </td>
+            <td>
+                <span th:each="role : ${user.roles}" th:text="${'ROLE_' + role}" style="background: #e2e8f0; padding: 2px 6px; border-radius: 4px; margin-right: 4px; font-family: monospace; font-size: 0.85em;">ROLE_USER</span>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

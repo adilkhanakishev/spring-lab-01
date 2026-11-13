@@ -1,0 +1,77 @@
+### ==============================================================================
+### LABORATORY WORK No. 6: Forms, Validation, i18n & Centralized Exception Handling
+### IntelliJ IDEA HTTP Client Scratch Requests
+### Student: Akishev Adilkhan (IS-2406) | Variant 2
+### ==============================================================================
+
+### 1. Task 1.4: Display Empty Form (GET /books/new) in English
+GET http://localhost:8080/books/new
+Accept: text/html
+
+### 2. Task 3.4: Display Form in Russian (?lang=ru)
+GET http://localhost:8080/books/new?lang=ru
+Accept: text/html
+
+### 3. Task 3.4: Display Form in Kazakh (?lang=kk)
+GET http://localhost:8080/books/new?lang=kk
+Accept: text/html
+
+### 4. Task 2.5 (Case 1): Submit form with empty title (Rejection)
+POST http://localhost:8080/books
+Content-Type: application/x-www-form-urlencoded
+
+title=&author=Joshua+Bloch&year=2018&genre=SCIENCE
+
+### 5. Task 2.5 (Case 2): Submit form with year out of range (1200 < 1450)
+POST http://localhost:8080/books
+Content-Type: application/x-www-form-urlencoded
+
+title=Ancient+Manuscript&author=Monk&year=1200&genre=HISTORY
+
+### 6. Task 2.5 (Case 3): Submit form without selecting a genre
+POST http://localhost:8080/books
+Content-Type: application/x-www-form-urlencoded
+
+title=Unknown+Genre+Book&author=Anonymous&year=2020&genre=
+
+### 7. Task 4.2: Submit form violating custom @NoDigits constraint (Author contains digits)
+POST http://localhost:8080/books
+Content-Type: application/x-www-form-urlencoded
+
+title=Java+Generics&author=Bloch+2018&year=2018&genre=SCIENCE
+
+### 8. Individual Variant 2: Class-level @ValidReprintYear violation (reprintYear < year)
+POST http://localhost:8080/books
+Content-Type: application/x-www-form-urlencoded
+
+title=Design+Patterns&author=Gamma&year=1994&reprintYear=1990&genre=SCIENCE
+
+### 9. Task 2.5 (Case 4): Valid submission with Post/Redirect/Get pattern
+POST http://localhost:8080/books
+Content-Type: application/x-www-form-urlencoded
+
+title=Clean+Code&author=Robert+Martin&year=2008&reprintYear=2012&genre=SCIENCE&available=true
+
+### 10. Check catalogue page after submission (F5 Safe Refresh)
+GET http://localhost:8080/books
+Accept: text/html
+
+### 11. Task 4.4: MVC Page Exception Handler (GET /books/999 -> PageExceptionHandler -> HTML)
+GET http://localhost:8080/books/999
+Accept: text/html
+
+### 12. Task 4.4: REST API Exception Handler (GET /api/books/999 -> ApiExceptionHandler -> ProblemDetail JSON)
+GET http://localhost:8080/api/books/999
+Accept: application/problem+json, application/json
+
+### 13. REST API: Get all books
+GET http://localhost:8080/api/books
+Accept: application/json
+
+### 14. Lab 5 Variant 2: Regex-constrained path variable (Valid: 4 digits)
+GET http://localhost:8080/api/books/by-year/2018
+Accept: application/json
+
+### 15. Lab 5 Variant 2: Regex-constrained path variable (Invalid: non-digits -> 404)
+GET http://localhost:8080/api/books/by-year/abc
+Accept: application/json

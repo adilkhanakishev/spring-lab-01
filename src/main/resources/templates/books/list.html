@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Catalogue</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+    <div style="background:#f1f5f9; padding: 10px 15px; margin-bottom: 20px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #cbd5e1;">
+        <div>
+            User: <strong sec:authentication="name" style="color: #1e40af;">anonymous</strong>
+            Authorities: <span sec:authentication="principal.authorities" style="color: #475569; font-family: monospace;">[ROLE_USER]</span>
+        </div>
+        <div>
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin}" class="btn-primary" style="margin-right: 10px; background: #ea580c; border: none; padding: 5px 12px; color: white; text-decoration: none; border-radius: 4px;">Administration</a>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" style="padding: 5px 12px; cursor: pointer; border-radius: 4px; border: 1px solid #94a3b8; background: white;">Log out</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="lang-switch">
+        <span>Language / Язык / Тіл:</span>
+        <a th:href="@{/books(lang='en')}">English</a> |
+        <a th:href="@{/books(lang='ru')}">Русский</a> |
+        <a th:href="@{/books(lang='kk')}">Қазақша</a>
+    </div>
+
+    <h1 th:text="${title}">Catalogue</h1>
+
+    <p th:if="${message}" class="flash" th:text="${message}"></p>
+
+    <div style="margin-bottom: 20px;" sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/books/new}" class="btn-primary" th:text="#{books.add}">+ Add New Book</a>
+    </div>
+
+    <form method="get" action="/books" class="filter-form">
+        <label for="authorInput" th:text="#{book.author} + ':'">Author:</label>
+        <input type="text" id="authorInput" name="author" th:value="${author}" placeholder="e.g. Bloch">
+        <button type="submit" th:text="#{books.filter}">Filter</button>
+        <a th:href="@{/books}" class="btn-link" th:text="#{books.reset}">Reset</a>
+    </form>
+
+    <table>
+        <tr>
+            <th th:text="#{books.table.id}">#</th>
+            <th th:text="#{books.table.title}">Title</th>
+            <th th:text="#{books.table.author}">Author</th>
+            <th th:text="#{books.table.year}">Year</th>
+        </tr>
+        <tr th:each="book : ${books}">
+            <td th:text="${book.id}">1</td>
+            <td th:text="${book.title}">Title</td>
+            <td th:text="${book.author}">Author</td>
+            <td th:text="${book.year}">2020</td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,227 @@
+[INFO] Scanning for projects...
+[INFO] Loaded 24322 auto-discovered prefixes for remote repository central (prefixes-central.txt)
+[INFO] 
+[INFO] -----------------------< kz.iitu:spring-lab-01 >------------------------
+[INFO] Building  0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] Loaded 24322 auto-discovered prefixes for remote repository maven-central (prefixes-maven-central.txt)
+[WARNING] Could not transfer metadata /.meta/prefixes.txt from/to flyway-community-db-support (https://maven.pkg.github.com/flyway/flyway-community-db-support): HTTP Status: 401
+[WARNING] Could not transfer metadata /.meta/prefixes.txt from/to MavenFeed (https://red-gate.pkgs.visualstudio.com/MavenFeed/_packaging/MavenFeed/maven/v1/): HTTP Status: 401
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ spring-lab-01 ---
+[INFO] Copying 4 resources from src\main\resources to target\classes
+[INFO] Copying 11 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ spring-lab-01 ---
+[INFO] Loaded 74 auto-discovered prefixes for remote repository apache.snapshots (prefixes-apache.snapshots.txt)
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 54 source files with javac [debug parameters release 25] to target\classes
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ spring-lab-01 ---
+[INFO] skip non existing resourceDirectory C:\Users\Asus\Documents\Codex\2026-11-02\new-chat\work\integrated\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ spring-lab-01 ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 8 source files with javac [debug parameters release 25] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ spring-lab-01 ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running kz.iitu.springlab.Lab08DataJpaTest
+02:20:04.732 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [kz.iitu.springlab.Lab08DataJpaTest]: Lab08DataJpaTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+02:20:04.880 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration kz.iitu.springlab.SpringLab01Application for test class kz.iitu.springlab.Lab08DataJpaTest
+02:20:04.977 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [kz.iitu.springlab.Lab08DataJpaTest]: Lab08DataJpaTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+02:20:04.978 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration kz.iitu.springlab.SpringLab01Application for test class kz.iitu.springlab.Lab08DataJpaTest
+02:20:05.069 [main] INFO org.springframework.boot.devtools.restart.RestartApplicationListener -- Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-11-02T02:20:05.411+05:00  INFO 14612 --- [spring-lab] [           main] kz.iitu.springlab.Lab08DataJpaTest       : Starting Lab08DataJpaTest using Java 25.0.4.1 with PID 14612 (started by Asus in C:\Users\Asus\Documents\Codex\2026-11-02\new-chat\work\integrated)
+2026-11-02T02:20:05.413+05:00  INFO 14612 --- [spring-lab] [           main] kz.iitu.springlab.Lab08DataJpaTest       : The following 1 profile is active: "lab09"
+2026-11-02T02:20:06.512+05:00  INFO 14612 --- [spring-lab] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-02T02:20:06.602+05:00  INFO 14612 --- [spring-lab] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 78 ms. Found 6 JPA repository interfaces.
+2026-11-02T02:20:07.397+05:00  INFO 14612 --- [spring-lab] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-11-02T02:20:07.619+05:00  INFO 14612 --- [spring-lab] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:alltests user=SA
+2026-11-02T02:20:07.621+05:00  INFO 14612 --- [spring-lab] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-11-02T02:20:07.631+05:00  INFO 14612 --- [spring-lab] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:alltests (H2 2.4)
+2026-11-02T02:20:07.682+05:00  WARN 14612 --- [spring-lab] [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-02T02:20:07.709+05:00  INFO 14612 --- [spring-lab] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+2026-11-02T02:20:07.712+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.014s)
+2026-11-02T02:20:07.718+05:00  INFO 14612 --- [spring-lab] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+2026-11-02T02:20:07.751+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": << Empty Schema >>
+2026-11-02T02:20:07.767+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "PUBLIC" to version "1 - create accounts"
+2026-11-02T02:20:07.791+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "PUBLIC" to version "2 - add status"
+2026-11-02T02:20:07.805+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "PUBLIC" to version "3 - index owner name"
+2026-11-02T02:20:07.811+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 3 migrations to schema "PUBLIC", now at version v3 (execution time 00:00.023s)
+2026-11-02T02:20:07.960+05:00  INFO 14612 --- [spring-lab] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-02T02:20:08.049+05:00  INFO 14612 --- [spring-lab] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-11-02T02:20:08.505+05:00  INFO 14612 --- [spring-lab] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-02T02:20:08.578+05:00  INFO 14612 --- [spring-lab] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:alltests]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: ALLTESTS/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-02T02:20:09.564+05:00  INFO 14612 --- [spring-lab] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-02T02:20:09.591+05:00  INFO 14612 --- [spring-lab] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-02T02:20:09.674+05:00  INFO 14612 --- [spring-lab] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-02T02:20:10.391+05:00  INFO 14612 --- [spring-lab] [           main] k.i.springlab.lifecycle.LifecycleDemo    : LIFECYCLE >> 2026-11-02 02:20:10 1. Constructor called
+2026-11-02T02:20:10.392+05:00  INFO 14612 --- [spring-lab] [           main] k.i.springlab.lifecycle.LifecycleDemo    : LIFECYCLE >> 2026-11-02 02:20:10 2. @PostConstruct executed
+2026-11-02T02:20:10.396+05:00  INFO 14612 --- [spring-lab] [           main] k.i.springlab.notify.ReversedNotifier    : REVERSED NOTIFIER >> initialized
+2026-11-02T02:20:10.644+05:00  INFO 14612 --- [spring-lab] [           main] o.s.b.w.a.WelcomePageHandlerMapping      : Adding welcome page: class path resource [static/index.html]
+2026-11-02T02:20:11.322+05:00  INFO 14612 --- [spring-lab] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 4 endpoints beneath base path '/actuator'
+2026-11-02T02:20:11.373+05:00  INFO 14612 --- [spring-lab] [           main] kz.iitu.springlab.Lab08DataJpaTest       : Started Lab08DataJpaTest in 6.318 seconds (process running for 7.507)
+2026-11-02T02:20:11.521+05:00  INFO 14612 --- [spring-lab] [           main] k.i.s.catalog.DatabaseInitializer        : Seeding database with authors, tags, and books according to Lab 08 Task 2.2...
+2026-11-02T02:20:11.605+05:00  INFO 14612 --- [spring-lab] [           main] k.i.s.catalog.DatabaseInitializer        : Database seeding completed: 3 authors, 4 tags, 8 books.
+2026-11-02T02:20:11.613+05:00  INFO 14612 --- [spring-lab] [           main] k.iitu.springlab.config.ContainerReport  : Bean definitions in total: 489
+2026-11-02T02:20:11.614+05:00  INFO 14612 --- [spring-lab] [           main] k.iitu.springlab.config.ContainerReport  : Notifier implementations: [console, emailNotifier, noop, reversed]
+2026-11-02T02:20:11.614+05:00  INFO 14612 --- [spring-lab] [           main] k.iitu.springlab.config.ContainerReport  : Type of the notificationService bean: kz.iitu.springlab.NotificationService
+2026-11-02T02:20:11.614+05:00  INFO 14612 --- [spring-lab] [           main] k.iitu.springlab.config.ContainerReport  :  bean: emailNotifier
+2026-11-02T02:20:11.615+05:00  WARN 14612 --- [spring-lab] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-11-02T02:20:11.615+05:00  WARN 14612 --- [spring-lab] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\Asus\.m2\repository\net\bytebuddy\byte-buddy-agent\1.18.11\byte-buddy-agent-1.18.11.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.149 s -- in kz.iitu.springlab.Lab08DataJpaTest
+[INFO] Running kz.iitu.springlab.lab09.MigrationLabTest
+2026-11-02T02:20:12.755+05:00  INFO 14612 --- [spring-lab] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:file:C:/Users/Asus/AppData/Local/Temp/junit-1731090503802068952/versioning (H2 2.4)
+2026-11-02T02:20:12.762+05:00  WARN 14612 --- [spring-lab] [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-02T02:20:12.766+05:00  INFO 14612 --- [spring-lab] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+2026-11-02T02:20:12.766+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.002s)
+2026-11-02T02:20:12.768+05:00  INFO 14612 --- [spring-lab] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+2026-11-02T02:20:12.776+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": << Empty Schema >>
+2026-11-02T02:20:12.779+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "PUBLIC" to version "1 - create accounts"
+2026-11-02T02:20:12.790+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "PUBLIC" to version "2 - add status"
+2026-11-02T02:20:12.797+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 2 migrations to schema "PUBLIC", now at version v2 (execution time 00:00.011s)
+LAB09 | MIGRATION empty database: V1 and V2 applied
+2026-11-02T02:20:12.842+05:00  INFO 14612 --- [spring-lab] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:file:C:/Users/Asus/AppData/Local/Temp/junit-1731090503802068952/versioning (H2 2.4)
+2026-11-02T02:20:12.848+05:00  WARN 14612 --- [spring-lab] [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-02T02:20:12.856+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.005s)
+2026-11-02T02:20:12.860+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": 2
+2026-11-02T02:20:12.861+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Schema "PUBLIC" is up to date. No migration necessary.
+LAB09 | MIGRATION restart: 0 migrations executed
+2026-11-02T02:20:12.904+05:00  INFO 14612 --- [spring-lab] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:file:C:/Users/Asus/AppData/Local/Temp/junit-1731090503802068952/versioning (H2 2.4)
+2026-11-02T02:20:12.908+05:00  WARN 14612 --- [spring-lab] [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-02T02:20:12.913+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.003s)
+2026-11-02T02:20:12.915+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": 2
+2026-11-02T02:20:12.917+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "PUBLIC" to version "3 - index owner name"
+2026-11-02T02:20:12.920+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "PUBLIC", now at version v3 (execution time 00:00.001s)
+2026-11-02T02:20:13.226+05:00  INFO 14612 --- [spring-lab] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:file:C:/Users/Asus/AppData/Local/Temp/junit-1731090503802068952/versioning (H2 2.4)
+2026-11-02T02:20:13.231+05:00  WARN 14612 --- [spring-lab] [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-02T02:20:13.237+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.003s)
+2026-11-02T02:20:13.239+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": 3
+2026-11-02T02:20:13.239+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Schema "PUBLIC" is up to date. No migration necessary.
+LAB09 | HISTORY V1 create accounts success=true
+LAB09 | HISTORY V2 add status success=true
+LAB09 | HISTORY V3 index owner name success=true
+2026-11-02T02:20:13.567+05:00  INFO 14612 --- [spring-lab] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:file:C:/Users/Asus/AppData/Local/Temp/junit-1731090503802068952/versioning (H2 2.4)
+2026-11-02T02:20:13.571+05:00  WARN 14612 --- [spring-lab] [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-02T02:20:13.576+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.002s)
+LAB09 | MIGRATION upgrade: only V3 applied; index verified; checksums valid
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.915 s -- in kz.iitu.springlab.lab09.MigrationLabTest
+[INFO] Running kz.iitu.springlab.lab09.TransactionLabTest
+2026-11-02T02:20:13.615+05:00  INFO 14612 --- [spring-lab] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [kz.iitu.springlab.lab09.TransactionLabTest]: TransactionLabTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-02T02:20:13.628+05:00  INFO 14612 --- [spring-lab] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration kz.iitu.springlab.SpringLab01Application for test class kz.iitu.springlab.lab09.TransactionLabTest
+2026-11-02T02:20:13.630+05:00  INFO 14612 --- [spring-lab] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [kz.iitu.springlab.lab09.TransactionLabTest]: TransactionLabTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-02T02:20:13.631+05:00  INFO 14612 --- [spring-lab] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration kz.iitu.springlab.SpringLab01Application for test class kz.iitu.springlab.lab09.TransactionLabTest
+2026-11-02T02:20:13.636+05:00  INFO 14612 --- [spring-lab] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.1)
+
+2026-11-02T02:20:13.668+05:00  INFO 14612 --- [spring-lab] [           main] k.i.springlab.lab09.TransactionLabTest   : Starting TransactionLabTest using Java 25.0.4.1 with PID 14612 (started by Asus in C:\Users\Asus\Documents\Codex\2026-11-02\new-chat\work\integrated)
+2026-11-02T02:20:13.669+05:00  INFO 14612 --- [spring-lab] [           main] k.i.springlab.lab09.TransactionLabTest   : The following 1 profile is active: "lab09"
+2026-11-02T02:20:13.960+05:00  INFO 14612 --- [spring-lab] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-02T02:20:13.983+05:00  INFO 14612 --- [spring-lab] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 20 ms. Found 6 JPA repository interfaces.
+2026-11-02T02:20:14.066+05:00  INFO 14612 --- [spring-lab] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-11-02T02:20:14.069+05:00  INFO 14612 --- [spring-lab] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn21: url=jdbc:h2:mem:tests user=SA
+2026-11-02T02:20:14.070+05:00  INFO 14612 --- [spring-lab] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-11-02T02:20:14.070+05:00  INFO 14612 --- [spring-lab] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:tests (H2 2.4)
+2026-11-02T02:20:14.075+05:00  WARN 14612 --- [spring-lab] [           main] o.f.c.internal.database.base.Database    : Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.
+2026-11-02T02:20:14.081+05:00  INFO 14612 --- [spring-lab] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+2026-11-02T02:20:14.081+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.003s)
+2026-11-02T02:20:14.082+05:00  INFO 14612 --- [spring-lab] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+2026-11-02T02:20:14.088+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": << Empty Schema >>
+2026-11-02T02:20:14.092+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "PUBLIC" to version "1 - create accounts"
+2026-11-02T02:20:14.100+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "PUBLIC" to version "2 - add status"
+2026-11-02T02:20:14.105+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "PUBLIC" to version "3 - index owner name"
+2026-11-02T02:20:14.108+05:00  INFO 14612 --- [spring-lab] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 3 migrations to schema "PUBLIC", now at version v3 (execution time 00:00.007s)
+2026-11-02T02:20:14.123+05:00  INFO 14612 --- [spring-lab] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-02T02:20:14.157+05:00  INFO 14612 --- [spring-lab] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-02T02:20:14.159+05:00  INFO 14612 --- [spring-lab] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:tests]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: TESTS/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-02T02:20:14.272+05:00  INFO 14612 --- [spring-lab] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-02T02:20:14.276+05:00  INFO 14612 --- [spring-lab] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-02T02:20:14.360+05:00  INFO 14612 --- [spring-lab] [           main] k.i.springlab.lifecycle.LifecycleDemo    : LIFECYCLE >> 2026-11-02 02:20:14 1. Constructor called
+2026-11-02T02:20:14.361+05:00  INFO 14612 --- [spring-lab] [           main] k.i.springlab.lifecycle.LifecycleDemo    : LIFECYCLE >> 2026-11-02 02:20:14 2. @PostConstruct executed
+2026-11-02T02:20:14.363+05:00  INFO 14612 --- [spring-lab] [           main] k.i.springlab.notify.ReversedNotifier    : REVERSED NOTIFIER >> initialized
+2026-11-02T02:20:14.410+05:00  INFO 14612 --- [spring-lab] [           main] o.s.b.w.a.WelcomePageHandlerMapping      : Adding welcome page: class path resource [static/index.html]
+2026-11-02T02:20:14.535+05:00  INFO 14612 --- [spring-lab] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 4 endpoints beneath base path '/actuator'
+2026-11-02T02:20:14.549+05:00  INFO 14612 --- [spring-lab] [           main] k.i.springlab.lab09.TransactionLabTest   : Started TransactionLabTest in 0.913 seconds (process running for 10.683)
+2026-11-02T02:20:14.554+05:00  INFO 14612 --- [spring-lab] [           main] k.i.s.catalog.DatabaseInitializer        : Seeding database with authors, tags, and books according to Lab 08 Task 2.2...
+2026-11-02T02:20:14.582+05:00  INFO 14612 --- [spring-lab] [           main] k.i.s.catalog.DatabaseInitializer        : Database seeding completed: 3 authors, 4 tags, 8 books.
+2026-11-02T02:20:14.583+05:00  INFO 14612 --- [spring-lab] [           main] k.iitu.springlab.config.ContainerReport  : Bean definitions in total: 489
+2026-11-02T02:20:14.583+05:00  INFO 14612 --- [spring-lab] [           main] k.iitu.springlab.config.ContainerReport  : Notifier implementations: [console, emailNotifier, noop, reversed]
+2026-11-02T02:20:14.583+05:00  INFO 14612 --- [spring-lab] [           main] k.iitu.springlab.config.ContainerReport  : Type of the notificationService bean: kz.iitu.springlab.NotificationService
+2026-11-02T02:20:14.583+05:00  INFO 14612 --- [spring-lab] [           main] k.iitu.springlab.config.ContainerReport  :  bean: emailNotifier
+2026-11-02T02:20:14.585+05:00  WARN 14612 --- [spring-lab] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-11-02T02:20:14.585+05:00  WARN 14612 --- [spring-lab] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+LAB09 | INSUFFICIENT FUNDS rejected; Alice=1000.00 Bob=500.00
+LAB09 | ROLLBACK after SQL flush: Alice=1000.00 Bob=500.00 version=0
+LAB09 | REPEATABLE_READ first=1000.00 second=1000.00
+LAB09 | TRANSFER Alice=900.00 Bob=600.00 total=1500.00
+LAB09 | CHECKED default: debit committed, Alice=900.00 (intentional unsafe demonstration)
+LAB09 | CHECKED rollbackFor=IOException: Alice=1000.00
+LAB09 | OPTIMISTIC LOCK stale version=0 rejected; Alice=1010.00 version=1; no lost update
+LAB09 | REQUIRED outer rollback: audits=0 Alice=1000.00
+LAB09 | DATABASE 2.4.240
+LAB09 | REQUIRES_NEW outer rollback: audits=1 Alice=1000.00
+LAB09 | READ_COMMITTED first=1000.00 second=1100.00
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.139 s -- in kz.iitu.springlab.lab09.TransactionLabTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  17.654 s
+[INFO] Finished at: 2026-11-02T02:20:14+05:00
+[INFO] ------------------------------------------------------------------------

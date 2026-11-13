@@ -1,0 +1,26 @@
+### 1. Test unauthenticated access (expect redirect 302 to /login)
+GET http://localhost:8080/books
+
+### 2. Login as regular user (extracts JSESSIONID)
+POST http://localhost:8080/login
+Content-Type: application/x-www-form-urlencoded
+
+username=user&password=user123
+
+### 3. Login as administrator (extracts JSESSIONID)
+POST http://localhost:8080/login
+Content-Type: application/x-www-form-urlencoded
+
+username=admin&password=admin123
+
+### 4. Admin tries to access administration area (expect 200 OK)
+GET http://localhost:8080/admin
+
+### 5. Regular user tries to access administration area (expect 403 Forbidden)
+GET http://localhost:8080/admin
+
+### 6. CSRF Test: POST without CSRF token (expect 403 Forbidden)
+POST http://localhost:8080/books
+Content-Type: application/x-www-form-urlencoded
+
+title=Forged Book&genre=NOVEL&year=2026
