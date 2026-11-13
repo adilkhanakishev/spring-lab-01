@@ -9,6 +9,7 @@
 - **Студент (Student):** Акишев Адильхан (Akishev Adilkhan), тобы: IT1-2406
 - **Оқытушы (Lecturer):** Ембердиева Ақнұр (Yemberdiyeva Aknur), аға оқытушы
 - **Git тармағы (Branch):** `lab10` (Жоба: `spring-lab-01`)
+- **Pull Request (PR):** [PR #8](https://github.com/adilkhanakishev/spring-lab-01/pull/8)
 
 ---
 
@@ -115,7 +116,17 @@ Thymeleaf пішініне енгізілген токен:
 
 ---
 
-## 6. Қорғау сұрақтарының толық жауаптары (Defense Questions)
+## 6. GitHub репозиторийіндегі ресми Pull Request (PR #8)
+
+Тапсырма талаптарына сәйкес барлық өзгерістер қашықтағы GitHub репозиторийіне жіберіліп (`git push -u origin lab10`), ресми Pull Request ашылды:
+- **Репозиторий:** [github.com/adilkhanakishev/spring-lab-01](https://github.com/adilkhanakishev/spring-lab-01)
+- **Pull Request сілтемесі:** [PR #8 (Lab10)](https://github.com/adilkhanakishev/spring-lab-01/pull/8)
+
+![6-сурет. GitHub репозиторийінде ашылған ресми Pull Request #8 (Lab10)](docs/lab10-screenshots/screenshot6_github_pr.png)
+
+---
+
+## 7. Қорғау сұрақтарының толық жауаптары (Defense Questions)
 
 1. **Spring Security контроллерлерге қатысты қай жерде орындалады?**
    Spring Security сервлеттік сүзгілер тізбегі (`FilterChainProxy`) түрінде `DispatcherServlet` алдында орындалады. Сондықтан рұқсат етілмеген сұраныстар контроллерге жетпей жатып тоқтатылады.
@@ -160,7 +171,7 @@ Thymeleaf пішініне енгізілген токен:
 
 ---
 
-## 7. Қорытынды (Conclusion)
+## 8. Қорытынды (Conclusion)
 Зертханалық жұмыс барысында кітаптар каталогы қосымшасына Spring Security ішкі жүйесі толыққанды енгізілді. Басқа біреудің қауіпсіздік конфигурациясын тексерген кезде бірінші кезекте мына үш жайтты қарау қажет:
 1. `authorizeHttpRequests` соңғы жолы `denyAll()` арқылы жабылған ба, әлде абайсызда `permitAll()` қалып қойған ба?
 2. Құпиясөздердің сақталу тәсілі: BCrypt немесе Argon2 сияқты баяу тұздалған хэштар қолданылған ба, әлде ашық мәтін (`{noop}`) немесе SHA-256 сияқты жедел алгоритм бар ма?

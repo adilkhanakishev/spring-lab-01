@@ -101,14 +101,15 @@ def generate_report():
     r_sub.font.size = Pt(12)
 
     # Metadata Table
-    meta_table = doc.add_table(rows=5, cols=2)
+    meta_table = doc.add_table(rows=6, cols=2)
     meta_table.alignment = WD_TABLE_ALIGNMENT.CENTER
     meta_data = [
         ("Course:", "RWPSF 3305 — Web Application Development with Spring Framework"),
         ("Educational Programme:", "6B06105 — Information Systems (Year 3, Semester 6)"),
         ("Student:", "Akishev Adilkhan (Group IT1-2406)"),
         ("Lecturer:", "Yemberdiyeva Aknur, Senior Lector"),
-        ("Git Repository & Branch:", "spring-lab-01 / branch: lab10")
+        ("Git Repository & Branch:", "spring-lab-01 / branch: lab10"),
+        ("Official Pull Request:", "PR #8 (https://github.com/adilkhanakishev/spring-lab-01/pull/8)")
     ]
     for i, (k, v) in enumerate(meta_data):
         row = meta_table.rows[i]
@@ -289,8 +290,20 @@ def generate_report():
         "automatically attach cookies to cross-origin requests, an attacker cannot forge or read the random token value."
     )
 
-    # 6. Defense Questions & Answers
-    add_heading_styled(doc, "6. Section 10 Defense Questions and Complete Answers", level=1)
+    # 6. Official GitHub Pull Request
+    add_heading_styled(doc, "6. Official GitHub Pull Request", level=1)
+    doc.add_paragraph(
+        "Following the laboratory delivery requirements, all source code, Flyway migrations, templates, "
+        "and security configurations were committed to branch 'lab10' and pushed to GitHub. "
+        "An official Pull Request was created:\n"
+        "• Repository: https://github.com/adilkhanakishev/spring-lab-01\n"
+        "• Official Pull Request: PR #8 (https://github.com/adilkhanakishev/spring-lab-01/pull/8)"
+    )
+    add_image_safe(doc, os.path.join(screenshots_dir, "screenshot6_github_pr.png"),
+                   "Figure 6. Official GitHub Pull Request #8 created for Laboratory Work No. 10 (branch lab10)")
+
+    # 7. Defense Questions & Answers
+    add_heading_styled(doc, "7. Section 10 Defense Questions and Complete Answers", level=1)
     qa = [
         ("1. Where does Spring Security run relative to your controllers? What follows from that?",
          "Spring Security runs as a chain of Servlet Filters (FilterChainProxy) *before* the request reaches DispatcherServlet and controllers. Consequently, unauthenticated or unauthorized requests are rejected at the servlet boundary before any controller code executes."),
@@ -342,8 +355,8 @@ def generate_report():
         p_a.paragraph_format.left_indent = Inches(0.2)
         p_a.paragraph_format.space_after = Pt(6)
 
-    # 7. Conclusions
-    add_heading_styled(doc, "7. Conclusions", level=1)
+    # 8. Conclusions
+    add_heading_styled(doc, "8. Conclusions", level=1)
     doc.add_paragraph(
         "In this laboratory work, the book catalog application was successfully secured using Spring Security. "
         "When auditing someone else's security configuration in a production environment, the three primary items to verify are:\n"
