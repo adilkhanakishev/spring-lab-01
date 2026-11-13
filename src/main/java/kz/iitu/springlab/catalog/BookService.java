@@ -6,6 +6,7 @@ import kz.iitu.springlab.web.dto.BookResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -259,6 +260,7 @@ public class BookService {
         return update(id, book, authorName);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     public void delete(long id) {
         if (!repository.existsById(id)) {

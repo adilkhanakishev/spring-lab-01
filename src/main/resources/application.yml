@@ -1,6 +1,10 @@
 spring:
+  profiles:
+    active: lab10
   application:
     name: spring-lab
+  flyway:
+    enabled: false
   datasource:
     url: jdbc:postgresql://localhost:5432/springlab
     username: springlab
