@@ -109,7 +109,7 @@ def generate_report():
         ("Student:", "Akishev Adilkhan (Group IT1-2406)"),
         ("Lecturer:", "Yemberdiyeva Aknur, Senior Lector"),
         ("Git Repository & Branch:", "spring-lab-01 / branch: lab10"),
-        ("Official Pull Request:", "PR #8 (https://github.com/adilkhanakishev/spring-lab-01/pull/8)")
+        ("Official Pull Request:", "https://github.com/adilkhanakishev/spring-lab-01/pull/8 (PR #8)")
     ]
     for i, (k, v) in enumerate(meta_data):
         row = meta_table.rows[i]
@@ -290,20 +290,8 @@ def generate_report():
         "automatically attach cookies to cross-origin requests, an attacker cannot forge or read the random token value."
     )
 
-    # 6. Official GitHub Pull Request
-    add_heading_styled(doc, "6. Official GitHub Pull Request", level=1)
-    doc.add_paragraph(
-        "Following the laboratory delivery requirements, all source code, Flyway migrations, templates, "
-        "and security configurations were committed to branch 'lab10' and pushed to GitHub. "
-        "An official Pull Request was created:\n"
-        "• Repository: https://github.com/adilkhanakishev/spring-lab-01\n"
-        "• Official Pull Request: PR #8 (https://github.com/adilkhanakishev/spring-lab-01/pull/8)"
-    )
-    add_image_safe(doc, os.path.join(screenshots_dir, "screenshot6_github_pr.png"),
-                   "Figure 6. Official GitHub Pull Request #8 created for Laboratory Work No. 10 (branch lab10)")
-
-    # 7. Defense Questions & Answers
-    add_heading_styled(doc, "7. Section 10 Defense Questions and Complete Answers", level=1)
+    # 6. Defense Questions & Answers
+    add_heading_styled(doc, "6. Section 10 Defense Questions and Complete Answers", level=1)
     qa = [
         ("1. Where does Spring Security run relative to your controllers? What follows from that?",
          "Spring Security runs as a chain of Servlet Filters (FilterChainProxy) *before* the request reaches DispatcherServlet and controllers. Consequently, unauthenticated or unauthorized requests are rejected at the servlet boundary before any controller code executes."),
@@ -355,8 +343,8 @@ def generate_report():
         p_a.paragraph_format.left_indent = Inches(0.2)
         p_a.paragraph_format.space_after = Pt(6)
 
-    # 8. Conclusions
-    add_heading_styled(doc, "8. Conclusions", level=1)
+    # 7. Conclusions
+    add_heading_styled(doc, "7. Conclusions", level=1)
     doc.add_paragraph(
         "In this laboratory work, the book catalog application was successfully secured using Spring Security. "
         "When auditing someone else's security configuration in a production environment, the three primary items to verify are:\n"
@@ -364,6 +352,18 @@ def generate_report():
         "2. Password storage: verifying that passwords use a salted, adaptive hash (BCrypt/Argon2) and never plaintext ({noop}) or rapid hashes (SHA-256).\n"
         "3. CSRF defense: ensuring CSRF protection is not globally disabled on endpoints that rely on browser session cookies."
     )
+
+    # 8. GitHub Repository & Pull Request
+    add_heading_styled(doc, "8. Deliverables: GitHub Pull Request #8", level=1)
+    doc.add_paragraph(
+        "According to the laboratory deliverables, all implementation commits, migrations, configurations, "
+        "and tests were pushed to the remote repository. An official Pull Request #8 was opened on GitHub:\n"
+        "• Repository: https://github.com/adilkhanakishev/spring-lab-01\n"
+        "• Branch: lab10\n"
+        "• Pull Request Link: https://github.com/adilkhanakishev/spring-lab-01/pull/8"
+    )
+    add_image_safe(doc, os.path.join(screenshots_dir, "screenshot6_github_pr.png"),
+                   "Figure 6. Official GitHub Pull Request #8 (lab10 -> main) with all laboratory commits")
 
     output_path = os.path.join(base_dir, "Lab10_Akishev_IS-2406_final.docx")
     doc.save(output_path)
